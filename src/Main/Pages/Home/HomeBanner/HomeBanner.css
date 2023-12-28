@@ -1,0 +1,9 @@
+.bannarbg{
+    background: url('../../../../assets//banner-bg-two.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    width: 100%;
+    height: 750px;
+}

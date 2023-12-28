@@ -1,0 +1,9 @@
+.categorybg {
+    background: url('../../../../assets/traditional-bg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    width: 100%;
+    
+}
