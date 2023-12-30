@@ -49,10 +49,10 @@ const Header = () => {
               <BsCartPlus className="border-2 hover:bg-[#F01543] border-white rounded-full p-3 text-5xl" />
             </li>
             <li className="mr-3 ml-2 border-2 border-[#F01543] hover:bg-white hover:text-[#F01543] py-2 px-6 rounded text-white bg-[#F01543]">
-              <Link>Login</Link>
+              <Link to="/signIn">Login</Link>
             </li>
             <li className="mr-3 border-2 hover:border-[#F01543] hover:bg-[#F01543] border-white py-2 px-6 rounded ">
-              <Link>SignUp</Link>
+              <Link to="/signUp">SignUp</Link>
             </li>
           </ul>
         </div>

@@ -37,7 +37,7 @@ const OurCategory = () => {
   ];
 
   return (
-    <div className="categorybg py-20">
+    <div className="categorybg pt-20 pb-10">
       <div className="w-11/12 mx-auto">
         <div className="flex justify-between items-center ">
           <h1 className="text-5xl font-semibold">Our Categories</h1>

@@ -1,0 +1,222 @@
+[
+    {
+        "category":"All Category"
+    },
+    {
+        "category":"Thai Cuisine"
+    },
+    {
+        "category":"Mexican"
+    },
+    {
+        "category":"Italian"
+    },
+    {
+        "category":"Vegetarian"
+    },
+    {
+        "category":"Junk Food"
+    }
+]
+
+
+
+
+
+
+
+
+https://i.ibb.co/sbXX5VG/traditional-3.png
+https://i.ibb.co/VHRTPDB/traditional-4.png
+https://i.ibb.co/4Mhq8Pm/traditional-5.png
+https://i.ibb.co/njfGzmC/traditional-6.png
+[
+  {
+    "category": "Thai Cuisine",
+    "subCategory":"All Category",
+    "img":"https://i.ibb.co/jrDnCHr/featured-1.png",
+    "name": "Baked Chicken Wings and Legs",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 30.0,
+    "reatings": "4.7(2.5K)",
+    "popular": 1,
+    "discount": 20
+  },
+  {
+    "category": "Thai Cuisine",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/W0Y01F6/popular-1.png",
+    "name": "Quinoa-Stuffed Bell Pepper",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 30.0,
+    "reatings": "3.7(2.5K)",
+    "popular": 1,
+    "discount": 10
+  },
+  {
+    "category": "Thai Cuisine",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/4mJyfb1/popular-2.png",
+    "name": "Baked Chicken Wings and Legs",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 35.0,
+    "reatings": "3.9(2.5K)",
+    "popular": 1,
+    "discount": 25
+  },
+  {
+    "category": "Thai Cuisine",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/C6Nt5tP/popular-3.png",
+    "name": "Fish Tacos with Chipotle Crema",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 27.0,
+    "reatings": "6.9(2.5K)",
+    "popular": 1,
+    "discount": 22
+  },
+  {
+    "category": "Mexican",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/Kb2PYkT/popular-4.png",
+    "name": "BBQ Pulled Pork Sandwich",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 20.0,
+    "reatings": "4.5(2.5K)",
+    "popular": 1,
+    "discount": 20
+  },
+  {
+    "category": "Mexican",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/rxGWCFW/popular-5.png",
+    "name": "Baked Chicken Wings and Legs",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 38.0,
+    "reatings": "3.9(2.5K)",
+    "popular": 1,
+    "discount": 25
+  },
+  {
+    "category": "Mexican",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/9cxH6dh/unnamed.jpg",
+    "name": "Fish Tacos with Chipotle Crema",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 27.0,
+    "reatings": "6.2(2.5K)",
+    "popular": 1,
+    "discount": 22
+  },
+  {
+    "category": "Italian",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/545mwdy/popular-6.png",
+    "name": "Eggplant Parmesan & Linguine",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 20.0,
+    "reatings": "4.5(2.5K)",
+    "popular": 1,
+    "discount": 20
+  },
+  {
+    "category": "Italian",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/mbsct5Z/download.jpg",
+    "name": "Traditional Italian Food Dishes You Will Love ",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 27.0,
+    "reatings": "6.3(2.5K)",
+    "popular": 1,
+    "discount": 22
+  },
+  {
+    "category": "Italian",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/TM2cckF/Vegetarian-Italian-Stuffed-Peppers-4-500x500.jpg",
+    "name": "Quinoa-Stuffed Bell Pepper",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 30.0,
+    "reatings": "3.7(2.5K)",
+    "popular": 1,
+    "discount": 10
+  },
+  {
+    "category": "Vegetarian",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/9TM5qd6/IMG-4008-3.jpg",
+    "name": "Pork Chop with Apple Chutney",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 20.0,
+    "reatings": "4.5(2.5K)",
+    "popular": 1,
+    "discount": 20
+  },
+  {
+    "category": "Vegetarian",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/M8mR9LQ/download-1.jpg",
+    "name": "BBQ Pulled Pork Sandwich",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 29.0,
+    "reatings": "4.8(2.5K)",
+    "popular": 1,
+    "discount": 19
+  },
+  {
+    "category": "Vegetarian",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/jZmTyzg/download-2.jpg",
+    "name": "Fish Tacos with Chipotle Crema",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 29.0,
+    "reatings": "8.8(2.5K)",
+    "popular": 1,
+    "discount": 27
+  },
+  {
+    "category": "Vegetarian",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/BLdsGnw/download-3.jpg",
+    "name": "Eggplant Parmesan & Linguine",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 50.0,
+    "reatings": "4.5(2.5K)",
+    "popular": 1,
+    "discount": 20
+  },
+
+  {
+    "category": "Junk Food",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/1zWXTzg/stuffed-peppers.jpg",
+    "name": "Quinoa-Stuffed Bell Pepper",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 20.0,
+    "reatings": "4.5(2.5K)",
+    "popular": 1,
+    "discount": 20
+  },
+  {
+    "category": "Junk Food",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/CVvV32j/download-4.jpg",
+    "name": "BBQ Pulled Pork Sandwich",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 28.0,
+    "reatings": "4.9(2.5K)",
+    "popular": 1,
+    "discount": 29
+  },
+  {
+    "category": "Junk Food",
+     "subCategory":"All Category",
+     "img":"https://i.ibb.co/PrvHdJm/download-5.jpg",
+    "name": "Baked Chicken Wings and Legs",
+    "items": ["4 Piece Chicken", "Spicy Sauce"],
+    "price": 40.0,
+    "reatings": "7.9(2.5K)",
+    "popular": 1,
+    "discount": 18
+  }
+]
