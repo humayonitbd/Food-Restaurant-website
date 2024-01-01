@@ -1,12 +1,25 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useContext } from "react";
 import { FaBars, FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BsCartPlus } from "react-icons/bs";
 import logo from '../../assets/footer-logo.svg';
 import { IoSearchCircle } from "react-icons/io5";
+import { AuthContext } from "../Context/AuthProvider";
 
 const Header = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const logOutHandler = () => {
+    logOut()
+      .then(() => {
+        alert("Logout successfull!");
+      })
+      .catch((error) => console.log(error));
+  };
+
+
+
   return (
     <div className="bg-[#000929] py-4 ">
       <div className="navbar  text-white w-11/12 mx-auto ">
@@ -48,13 +61,29 @@ const Header = () => {
             <li className="mr-3">
               <BsCartPlus className="border-2 hover:bg-[#F01543] border-white rounded-full p-3 text-5xl" />
             </li>
-            <li className="mr-3 ml-2 border-2 border-[#F01543] hover:bg-white hover:text-[#F01543] py-2 px-6 rounded text-white bg-[#F01543]">
-              <Link to="/signIn">Login</Link>
-            </li>
-            <li className="mr-3 border-2 hover:border-[#F01543] hover:bg-[#F01543] border-white py-2 px-6 rounded ">
-              <Link to="/signUp">SignUp</Link>
-            </li>
+            {user?.email ? (
+              <>
+                <li
+                  onClick={logOutHandler}
+                  className="mr-3 ml-2 border-2 border-[#F01543] hover:bg-white hover:text-[#F01543] py-2 px-6 rounded text-white bg-[#F01543]"
+                >
+                  <Link to="/signIn">Log-out</Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="mr-3 ml-2 border-2 border-[#F01543] hover:bg-white hover:text-[#F01543] py-2 px-6 rounded text-white bg-[#F01543]">
+                  <Link to="/signIn">Login</Link>
+                </li>
+                <li className="mr-3 border-2 hover:border-[#F01543] hover:bg-[#F01543] border-white py-2 px-6 rounded ">
+                  <Link to="/signUp">SignUp</Link>
+                </li>
+              </>
+            )}
           </ul>
+          {user?.email && <div>
+            <img src={user?.photoURL} className="w-10 h-10 rounded-full sm:mr-2" alt="" />
+          </div>}
         </div>
         <div className="flex-none gap-2">
           <div className="dropdown dropdown-end lg:hidden text-black ">
