@@ -4,6 +4,8 @@ import Home from "../Pages/Home/Home/Home";
 import About from "../Pages/About/About";
 import SignIn from "../Pages/Login/SignIn";
 import SignUp from "../Pages/Login/SignUp/SignUp";
+import Products from "../Pages/Products/Products/Products";
+import SingleProduct from "../Pages/Home/AllProductsSection/SingleProduct";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +24,14 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/products",
+        element: <Products />,
+      },
+      {
+        path: "/products/:id",
+        element: <SingleProduct />,
       },
       {
         path: "/signIn",

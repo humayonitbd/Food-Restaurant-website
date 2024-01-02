@@ -39,9 +39,15 @@ const Header = () => {
             <li className="mr-5">
               <Link to="/about">About</Link>
             </li>
-            <li className="mr-5">
-              <Link>Dashboard</Link>
-            </li>
+            {user?.email ? (
+              <li className="mr-5">
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+            ) : (
+              <li className="mr-5">
+                <Link to="/signIn">Dashboard</Link>
+              </li>
+            )}
             <div className="mx-5 flex relative ">
               <div className="form-control">
                 <input
@@ -81,9 +87,15 @@ const Header = () => {
               </>
             )}
           </ul>
-          {user?.email && <div>
-            <img src={user?.photoURL} className="w-10 h-10 rounded-full sm:mr-2" alt="" />
-          </div>}
+          {user?.email && (
+            <div>
+              <img
+                src={user?.photoURL}
+                className="w-10 h-10 rounded-full sm:mr-2"
+                alt=""
+              />
+            </div>
+          )}
         </div>
         <div className="flex-none gap-2">
           <div className="dropdown dropdown-end lg:hidden text-black ">
