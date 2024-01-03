@@ -31,7 +31,7 @@ const Header = () => {
         <div>
           <ul className="lg:flex items-center text-lg hidden  ">
             <li className="mr-5">
-              <Link>Home</Link>
+              <Link to="/">Home</Link>
             </li>
             <li className="mr-5">
               <Link>Menu</Link>

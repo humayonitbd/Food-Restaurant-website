@@ -6,6 +6,8 @@ import SignIn from "../Pages/Login/SignIn";
 import SignUp from "../Pages/Login/SignUp/SignUp";
 import Products from "../Pages/Products/Products/Products";
 import SingleProduct from "../Pages/Home/AllProductsSection/SingleProduct";
+import DashboardLayout from "../Layout/DashboardLayout/DashboardLayout";
+import Dashboard from "../Dashboard/Dashboard/Dashboard";
 
 export const router = createBrowserRouter([
   {
@@ -15,10 +17,6 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home></Home>,
-      },
-      {
-        path: "/home",
         element: <Home></Home>,
       },
       {
@@ -47,43 +45,43 @@ export const router = createBrowserRouter([
     //   },
     ],
   },
-//   {
-//     path: "/dashboard",
-//     element: <DashboardLayout />,
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
 
-//     children: [
-//       {
-//         path: "/dashboard",
-//         element: <Dashboard></Dashboard>,
-//       },
-//       {
-//         path: "/dashboard/booking-place",
-//         element: <BookingPlace />,
-//       },
-//       {
-//         path: "/dashboard/favorite-place",
-//         element: <FavoritePlace />,
-//       },
-//       {
-//         path: "/dashboard/dislike-place",
-//         element: <DislikePlace />,
-//       },
-//       {
-//         path: "/dashboard/allUsers",
-//         element: <AllUsers />,
-//       },
-//       {
-//         path: "/dashboard/allReportPlace",
-//         element: <AllReportPlaces />,
-//       },
-//       {
-//         path: "/dashboard/allBookedPlace",
-//         element: <AllBookedPlace />,
-//       },
-//       {
-//         path: "/dashboard/AllPlace",
-//         element: <AllPlaces />,
-//       },
-//     ],
-//   },
+    children: [
+      {
+        path: "/dashboard",
+        element: <Dashboard></Dashboard>,
+      },
+      // {
+      //   path: "/dashboard/booking-place",
+      //   element: <BookingPlace />,
+      // },
+      // {
+      //   path: "/dashboard/favorite-place",
+      //   element: <FavoritePlace />,
+      // },
+      // {
+      //   path: "/dashboard/dislike-place",
+      //   element: <DislikePlace />,
+      // },
+      // {
+      //   path: "/dashboard/allUsers",
+      //   element: <AllUsers />,
+      // },
+      // {
+      //   path: "/dashboard/allReportPlace",
+      //   element: <AllReportPlaces />,
+      // },
+      // {
+      //   path: "/dashboard/allBookedPlace",
+      //   element: <AllBookedPlace />,
+      // },
+      // {
+      //   path: "/dashboard/AllPlace",
+      //   element: <AllPlaces />,
+      // },
+    ],
+  },
 ]);

@@ -4,42 +4,12 @@ import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { BsCartPlus } from "react-icons/bs";
-import Modal from "react-modal";
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
 
 const AllProductsSection = () => {
   const [categorys, setCategorys] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All Category");
   const [categoryProducts, setCategoryProducts] = useState([]);
-
-  //modal code start
-  let subtitle;
-  const [modalIsOpen, setIsOpen] = useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = "#f00";
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  //modal code end
 
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/categorys")
@@ -77,7 +47,7 @@ const AllProductsSection = () => {
 
   return (
     <div className="categorybg">
-      <div className="w-11/12 mx-auto pb-20">
+      <div className="w-11/12 mx-auto pb-20  ">
         <div className="text-center text-black text-5xl font-semibold">
           <h2 className="leading-tight mb-10">
             Some Traditional Food <br /> Based on Location
@@ -103,7 +73,7 @@ const AllProductsSection = () => {
 
         {/* all products section start */}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 my-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 py-10">
           {categoryProducts?.slice(0, 6).map((categoryProduct) => (
             <div
               key={categoryProduct._id}
@@ -144,9 +114,12 @@ const AllProductsSection = () => {
                   ))}
                 </ul>
                 <div className="card-actions mt-3">
-                  <Link className="w-full" to={`/products/${categoryProduct._id}`}>
+                  <Link
+                    className="w-full"
+                    to={`/products/${categoryProduct._id}`}
+                  >
                     <button
-                      onClick={openModal}
+                      // onClick={openModal}
                       className="btn w-full bg-[#F01543] text-lg text-white hover:bg-black "
                     >
                       <BsCartPlus className="text-lg font-bold" />
@@ -167,33 +140,7 @@ const AllProductsSection = () => {
         </div>
         {/* all products section end */}
 
-        {/* modal code start  */}
-        <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <form
-            // onSubmit={handleSubmitBtnModal}
-            className="modal-box  shadow-none"
-          >
-            <h3 className="font-bold text-lg text-center">Filter!</h3>
-            <hr />
-            <h1 className="font-semibold mb-2">Type of place</h1>
-
-            <div className="flex justify-center my-8">
-              <button onClick={closeModal} className="btn mr-10">
-                close
-              </button>
-              <button type="submit" className="btn">
-                Show more...
-              </button>
-            </div>
-          </form>
-        </Modal>
-        {/* modal code end  */}
+        
       </div>
     </div>
   );

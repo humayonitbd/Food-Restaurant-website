@@ -45,11 +45,11 @@ const OurCategory = () => {
             See more
           </button>
         </div>
-        <div className="flex justify-between items-center mt-16 ">
+        <div className="md:flex justify-between items-center mt-16  ">
           {categoryServices?.map((categoryservice) => (
             <div
               key={categoryservice.id}
-              className="flex justify-between items-center hover:bg-[#F01543] hover:text-white bg-[#F4F4F6] p-5 rounded-md"
+              className="flex justify-between mb-3 md:mb-0 items-center hover:bg-[#F01543] hover:text-white bg-[#F4F4F6] p-5 rounded-md"
             >
               <img
                 className="w-16 bg-white rounded-full p-2 mr-4"
