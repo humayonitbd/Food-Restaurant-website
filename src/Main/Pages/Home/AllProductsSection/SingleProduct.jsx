@@ -3,9 +3,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BsCartPlus } from 'react-icons/bs';
 import { FaRegCircleCheck, FaStar } from 'react-icons/fa6';
 // import { BsCartPlus } from 'react-icons/bs';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Modal from "react-modal";
 import { AuthContext } from '../../../Context/AuthProvider';
+import Swal from "sweetalert2";
 
 const customStyles = {
   content: {
@@ -27,6 +28,7 @@ const SingleProduct = () => {
   const [simillerCategorys, setSimillerCategorys] = useState({});
   const { id } = useParams();
   const [idx, setIdx] = useState(id);
+  const navigate = useNavigate();
   useEffect(() => {
     fetch(`http://localhost:5000/api/v1/allProductsData/${idx}`)
       .then((res) => res.json())
@@ -34,17 +36,17 @@ const SingleProduct = () => {
       .catch((error) => console.error("Error fetching data:", error));
   }, [idx]);
   // console.log(singleProduct.category);
-  console.log("idx", idx);
-  console.log("singleProduct", singleProducts);
+  // console.log("idx", idx);
+  // console.log("singleProduct", singleProducts);
   useEffect(() => {
     fetch(
-      `http://localhost:5000/api/v1/allProductsData/?category=${singleProducts.category}`
+      `http://localhost:5000/api/v1/allProductsData/?category=${singleProducts?.category}`
     )
       .then((res) => res.json())
       .then((data) => setSimillerCategorys(data.data))
       .catch((error) => console.error("Error fetching data:", error));
-  }, [singleProducts.category]);
-
+  }, [singleProducts?.category]);
+  console.log("single category", singleProducts.category);
   //modal code start
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -64,39 +66,42 @@ const SingleProduct = () => {
 
   //modal code end
 
-  const handleSubmitBtnModal=(e)=>{
-     e.preventDefault();
+  const handleSubmitBtnModal = (e) => {
+    e.preventDefault();
     const order = {
       orderId: singleProducts._id,
-      orderName:singleProducts.name,
-      orderImg:singleProducts.img,
-      orderPrice:singleProducts.price,
-      orderQuantity:singleProducts.quantiry,
-      orderCategory:singleProducts.category,
-      userGmail:user?.email
-
+      orderName: singleProducts.name,
+      orderImg: singleProducts.img,
+      orderPrice: `${singleProducts.price * quantity}`,
+      orderQuantity: quantity,
+      orderCategory: singleProducts.category,
+      userGmail: user?.email,
     };
     console.log(order);
 
-    // fetch(`http://localhost:5000/bookingPlace`, {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify(bookingData),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.acknowledged) {
-    //       alert("booking successfull!!");
-    //       // refetch;
-    //       navigate("/home");
-    //       refetch();
-    //     }
-    //     console.log(data);
-    //   });
+    fetch(`http://localhost:5000/api/v1/orders`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(order),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          Swal.fire({
+            title: `${data.message}`,
+            text: "You clicked the button!",
+            icon: "success",
+          });
+          // refetch;
+          navigate("/dashboard");
+          // refetch();
+        }
+        console.log(data);
+      });
     setIsOpen(false);
-  }
+  };
 
   return (
     <div className="w-10/12 mx-auto bg-white pb-20 pt-10">

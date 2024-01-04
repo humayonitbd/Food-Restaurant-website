@@ -80,19 +80,19 @@ const DashboardLayout = () => {
                 </>
               ) : (
                 <>
-                  <Link to="/dashboard/booking-place">
+                  <Link to="/dashboard/booking-orders">
                     <li className=" rounded text-lg p-2 bg-white text-black mb-4">
-                      Booking Place
+                      Booking Orders
                     </li>
                   </Link>
                   <Link to="/dashboard/favorite-place">
                     <li className=" rounded text-lg p-2 bg-white text-black mb-4">
-                      Wishlist Place
+                      Wishlist Orders
                     </li>
                   </Link>
                   <Link to="/dashboard/dislike-place">
                     <li className=" rounded text-lg p-2 bg-white text-black mb-4">
-                      Report Place
+                      Report Orders
                     </li>
                   </Link>
                 </>
@@ -100,7 +100,9 @@ const DashboardLayout = () => {
 
               <div className="flex justify-center items-end mt-10 rounded ">
                 <Link to="/">
-                  <p className="link py-2 px-4 bg-white text-black">back to Home</p>
+                  <p className="link py-2 px-4 bg-white text-black">
+                    back to Home
+                  </p>
                 </Link>
               </div>
             </ul>

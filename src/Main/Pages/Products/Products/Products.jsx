@@ -25,7 +25,7 @@ const Products = () => {
               className="card card-compact  bg-base-100 shadow-md"
             >
               <figure>
-                <img src={allProduct.img} alt="Shoes" />
+                <img className='w-full h-60' src={allProduct.img} alt="Shoes" />
               </figure>
               <div className="card-body">
                 <div className="flex justify-between items-center">

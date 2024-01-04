@@ -6,6 +6,7 @@ import { BsCartPlus } from "react-icons/bs";
 import logo from '../../assets/footer-logo.svg';
 import { IoSearchCircle } from "react-icons/io5";
 import { AuthContext } from "../Context/AuthProvider";
+import Swal from "sweetalert2";
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -13,7 +14,11 @@ const Header = () => {
   const logOutHandler = () => {
     logOut()
       .then(() => {
-        alert("Logout successfull!");
+       Swal.fire({
+         title: `Log-out successfull!!`,
+         text: "You clicked the button!",
+         icon: "success",
+       });
       })
       .catch((error) => console.log(error));
   };

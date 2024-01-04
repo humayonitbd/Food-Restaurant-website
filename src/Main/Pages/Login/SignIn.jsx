@@ -2,6 +2,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
+import Swal from 'sweetalert2';
 
 const SignIn = () => {
     const { login, googleLogin } = useContext(AuthContext);
@@ -15,8 +16,11 @@ const SignIn = () => {
           const user = result.user;
           console.log(user);
           //   setLoginEmail(user.email);
-
-          alert("Login successfull!!");
+          Swal.fire({
+            title: `Login successfull!!`,
+            text: "You clicked the button!",
+            icon: "success",
+          });
           form.reset();
           //   navigate(from, {replace: true});
         })
@@ -47,7 +51,11 @@ const SignIn = () => {
              .then((data) => {
                console.log(data);
                // setLoginEmail(userData.email);
-               alert("google login successfull!!");
+               Swal.fire({
+                 title: `Google login successfull!!`,
+                 text: "You clicked the button!",
+                 icon: "success",
+               });
              });
 
           console.log("userData", userData);

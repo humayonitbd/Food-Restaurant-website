@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import './SignUp.css';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../Context/AuthProvider';
+import Swal from 'sweetalert2';
 const SignUp = () => {
   const { userUpdateHandler, createUser } = useContext(AuthContext);
   const handlerRegister = (e) => {
@@ -65,17 +66,11 @@ const SignUp = () => {
                 // setCreateEmail(userData.email);
               });
 
-            // Swal.fire({
-            //   title: "Create Account Successfull !!",
-            //   showClass: {
-            //     popup: "animate__animated animate__fadeInDown",
-            //   },
-            //   hideClass: {
-            //     popup: "animate__animated animate__fadeOutUp",
-            //   },
-            // });
-
-            // alert("account successfull !!");
+            Swal.fire({
+              title: `Create Account successfull!!`,
+              text: "You clicked the button!",
+              icon: "success",
+            });
             form.reset();
             //   navigete('/');
           })

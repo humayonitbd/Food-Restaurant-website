@@ -8,6 +8,7 @@ import Products from "../Pages/Products/Products/Products";
 import SingleProduct from "../Pages/Home/AllProductsSection/SingleProduct";
 import DashboardLayout from "../Layout/DashboardLayout/DashboardLayout";
 import Dashboard from "../Dashboard/Dashboard/Dashboard";
+import BookingOrders from "../Dashboard/BookingOrders/BookingOrders";
 
 export const router = createBrowserRouter([
   {
@@ -39,10 +40,10 @@ export const router = createBrowserRouter([
         path: "/signUp",
         element: <SignUp />,
       },
-    //   {
-    //     path: "/productDetails/:id",
-    //     element: <ProductDetails />,
-    //   },
+      //   {
+      //     path: "/productDetails/:id",
+      //     element: <ProductDetails />,
+      //   },
     ],
   },
   {
@@ -54,10 +55,10 @@ export const router = createBrowserRouter([
         path: "/dashboard",
         element: <Dashboard></Dashboard>,
       },
-      // {
-      //   path: "/dashboard/booking-place",
-      //   element: <BookingPlace />,
-      // },
+      {
+        path: "/dashboard/booking-orders",
+        element: <BookingOrders />,
+      },
       // {
       //   path: "/dashboard/favorite-place",
       //   element: <FavoritePlace />,
