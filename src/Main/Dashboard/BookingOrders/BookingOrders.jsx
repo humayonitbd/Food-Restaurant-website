@@ -1,11 +1,12 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import Modal from "react-modal";
 import { AuthContext } from '../../Context/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
 import bank from "../../../assets/bank.jpg";
 import bkash from "../../../assets/bkash_logo_0.jpg";
 import nagod from "../../../assets/Nagad-Logo.wine.png";
+import Swal from 'sweetalert2';
 
 const customStyles = {
   content: {
@@ -25,10 +26,12 @@ const BookingOrders = () => {
     const [paymentProduct, setPaymentProduct] = useState({});
     console.log("user eamil", user?.email);
     //booking data get by email
+    const [paymentAccount, setPaymentAccount] = useState("bkash");
+    console.log(paymentAccount)
 
     const {
       data: orders = {},
-    //   refetch,
+      refetch,
       isLoading,
     } = useQuery({
       queryKey: ["orders", user?.email],
@@ -40,22 +43,27 @@ const BookingOrders = () => {
         return data.data;
       },
     });
-    console.log("my orders", orders);
+    // console.log("my orders", orders);
 
-    // const deleteHandler = (id) => {
-    //   console.log("delete id", id);
-    //   fetch(`http://localhost:5000/bookingPlacesDelete/${id}`, {
-    //     method: "DELETE",
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       if (data.acknowledged) {
-    //         refetch();
-    //       }
-    //     });
-    // };
+    const deleteHandler = (id) => {
+      console.log("delete id", id);
+      fetch(`http://localhost:5000/api/v1/orders/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            Swal.fire({
+              title: `${data.message}`,
+              text: "You clicked the button!",
+              icon: "success",
+            });
+            refetch();
+          }
+        });
+    };
 
-    let subtitle;
+   const subtitleRef = useRef(null);
     const [modalIsOpen, setIsOpen] = useState(false);
 
     function openPayModal(data) {
@@ -66,8 +74,9 @@ const BookingOrders = () => {
     
 
     function afterOpenModal() {
-      // references are now sync'd and can be accessed.
-      subtitle.style.color = "#f00";
+      if (subtitleRef.current) {
+        subtitleRef.current.style.color = "#f00";
+      }
     }
 
     function closeModal() {
@@ -81,26 +90,41 @@ const BookingOrders = () => {
       console.log("modal submit")
       const form = e.target;
       const accountNumber = form.payment.value;
+      if(accountNumber.length >= 15 ){
+        Swal.fire({
+          title: `Your Account Number is Rong !!!`,
+          text: "You clicked the button!",
+          icon: "success",
+        });
+        return;
+      }
       const payInfo = {
-        bankAccountNumber: accountNumber,
-        bookingProductID: paymentProduct.bookingProductID,
+        pay: {
+          Method: paymentAccount,
+          AccountNumber: accountNumber,
+        },
+        orderProductID: paymentProduct.orderId,
         payment: "paid",
       };
 
-    //   fetch(`http://localhost:5000/bookingPayment/${paymentProduct._id}`, {
-    //     method: "PUT",
-    //     headers: {
-    //       "content-type": "application/json",
-    //     },
-    //     body: JSON.stringify(payInfo),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       if (data.modifiedCount) {
-    //         console.log("payment successfull !!");
-    //         refetch();
-    //       }
-    //     });
+      fetch(`http://localhost:5000/api/v1/orders/${paymentProduct._id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(payInfo),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            Swal.fire({
+              title: `${data.message}`,
+              text: "You clicked the button!",
+              icon: "success",
+            });
+            refetch();
+          }
+        });
 
       //   setFilterSearch(queryFilter);
       console.log("payInfo", payInfo);
@@ -118,7 +142,7 @@ const BookingOrders = () => {
     return (
       <div>
         <div className="py-5 bg-[#F01543] mt-2">
-          <h3 className="text-center text-2xl font-bold text-white">
+          <h3 className="text-center text-2xl  font-bold text-white">
             Booking Orders
           </h3>
         </div>
@@ -167,7 +191,7 @@ const BookingOrders = () => {
                           <td className="font-bold">{order?.orderQuantity}</td>
                           <td>
                             <button
-                              //   onClick={() => deleteHandler(bookedPlace._id)}
+                              onClick={() => deleteHandler(order._id)}
                               className=" bg-red-500 text-white px-5 py-2 rounded mr-2"
                             >
                               Delete
@@ -217,20 +241,24 @@ const BookingOrders = () => {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <form onSubmit={handleSubmitBtnModal}>
+          <form ref={subtitleRef} onSubmit={handleSubmitBtnModal}>
             <div className="flex flex-col  p-5">
-              <h3 className="text-xl font-bold text-center">
+              <h3 className="text-xl font-bold text-[#F01543] text-center">
                 Bank Account Number
               </h3>
               <br />
               <div className="md:flex justify-between items-center mb-3">
                 <div className="">
-                  <p>
-                    Email: <span className=" font-bold"> {user?.email}</span>
+                  <p className="text-black">
+                    Email:{" "}
+                    <span className=" text-black font-bold">
+                      {" "}
+                      {user?.email}
+                    </span>
                   </p>
                 </div>
                 <div className="pr-5">
-                  <p>
+                  <p className="text-black">
                     Price:{" "}
                     <span className=" font-bold">
                       {" $"}
@@ -239,23 +267,50 @@ const BookingOrders = () => {
                   </p>
                 </div>
               </div>
-              <div className='md:flex justify-between items-center mt-3 mb-5'>
+              <div className="md:flex justify-between items-center mt-3 mb-5">
                 <div>
-                  <img className='w-28 border-2 border-[#F01543] shadow-md px-6 py-3' src={bank} alt="bank" />
+                  <img
+                    onClick={() => setPaymentAccount("bank")}
+                    className={`${
+                      paymentAccount === "bank"
+                        ? "border-[#F01543]"
+                        : "border-white"
+                    } w-28  border-4  mb-2 md:mb-0  shadow-md px-6 py-3`}
+                    src={bank}
+                    alt="bank"
+                  />
                 </div>
                 <div>
-                  <img className='w-28 border-2 border-[#F01543] shadow-md px-6 py-3' src={bkash} alt="bkash" />
+                  <img
+                    onClick={() => setPaymentAccount("bkash")}
+                    className={`${
+                      paymentAccount === "bkash"
+                        ? "border-[#F01543]"
+                        : "border-white"
+                    } w-28 border-4   mb-2 md:mb-0  shadow-md px-6 py-3`}
+                    src={bkash}
+                    alt="bkash"
+                  />
                 </div>
                 <div>
-                  <img className='w-28 border-2 border-[#F01543] shadow-md px-6 py-3' src={nagod} alt="nagod" />
+                  <img
+                    onClick={() => setPaymentAccount("nagod")}
+                    className={`${
+                      paymentAccount === "nagod"
+                        ? "border-[#F01543]"
+                        : "border-white"
+                    } w-28 border-4  mb-2 md:mb-0  shadow-md px-6 py-3`}
+                    src={nagod}
+                    alt="nagod"
+                  />
                 </div>
               </div>
               <div className="my-2">
-                <label className=" font-bold">Account Number:</label>
+                <label className="text-black font-bold">Account Number:</label>
                 <br />
                 <input
                   type="number"
-                  className="border border-stone-300 p-2 w-full "
+                  className="border border-stone-300 p-2 w-full text-black"
                   name="payment"
                   placeholder="type account number..."
                 />

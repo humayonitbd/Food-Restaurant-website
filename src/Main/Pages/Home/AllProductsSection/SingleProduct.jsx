@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Modal from "react-modal";
 import { AuthContext } from '../../../Context/AuthProvider';
 import Swal from "sweetalert2";
+import SmallLoading from '../../../SharedPage/Loading/SmallLoading';
 
 const customStyles = {
   content: {
@@ -28,6 +29,7 @@ const SingleProduct = () => {
   const [simillerCategorys, setSimillerCategorys] = useState({});
   const { id } = useParams();
   const [idx, setIdx] = useState(id);
+  const [favoriteText, setFavoriteText] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     fetch(`http://localhost:5000/api/v1/allProductsData/${idx}`)
@@ -76,6 +78,7 @@ const SingleProduct = () => {
       orderQuantity: quantity,
       orderCategory: singleProducts.category,
       userGmail: user?.email,
+      status:"Conform"
     };
     console.log(order);
 
@@ -101,6 +104,60 @@ const SingleProduct = () => {
         console.log(data);
       });
     setIsOpen(false);
+  };
+
+  const FavoriteProductHandler=()=>{
+    const favoriteorder = {
+      orderId: singleProducts._id,
+      orderName: singleProducts.name,
+      orderImg: singleProducts.img,
+      orderPrice: `${singleProducts.price * quantity}`,
+      orderQuantity: quantity,
+      orderCategory: singleProducts.category,
+      userGmail: user?.email,
+      status: "Pending",
+    };
+    console.log(favoriteorder);
+    fetch(`http://localhost:5000/api/v1/orders`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(favoriteorder),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          Swal.fire({
+            title: `Favorite Product Conform !!`,
+            text: "You clicked the button!!",
+            icon: "success",
+          });
+          // refetch;
+         
+          // refetch();
+        }
+        console.log(data);
+      });
+  }
+  const FavoriteProductDeleteHandler = (id) => {
+    fetch(`http://localhost:5000/api/v1/orders/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          Swal.fire({
+            title: `Unfavorite Product Conform !!`,
+            text: "You clicked the button!!",
+            icon: "success",
+          });
+          // refetch;
+
+          // refetch();
+        }
+        console.log(data);
+      });
   };
 
   return (
@@ -135,9 +192,36 @@ const SingleProduct = () => {
                 <h2 className=" md:text-4xl font-bold my-4">
                   {singleProducts.name}
                 </h2>
-                <button className=" bg-orange-400 btn text-lg px-10 text-white hover:bg-black  ">
-                  Favorite
-                </button>
+                {favoriteText === "Favotite1" ? (
+                  <>
+                    <button
+                      // onClick={FavoriteProductHandler}
+                      // onClick={(e) => setFavoriteText(e.target.innertext)}
+
+                      onClick={() => {
+                        FavoriteProductDeleteHandler(singleProducts._id);
+                        setFavoriteText("Favotite");
+                      }}
+                      className={`bg-[#F01543] btn text-lg px-10 text-white hover:bg-orange-400`}
+                    >
+                      Unfavorite
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      // onClick={FavoriteProductHandler}
+                      // onClick={(e) => setFavoriteText(e.target.innertext)}
+                      onClick={() => {
+                        FavoriteProductHandler();
+                        setFavoriteText("Favotite1");
+                      }}
+                      className={`bg-orange-400 btn text-lg px-10 text-white hover:bg-orange-400`}
+                    >
+                      Favorite
+                    </button>
+                  </>
+                )}
               </div>
               <ul>
                 {singleProducts?.items?.map((item, id) => (
@@ -182,7 +266,10 @@ const SingleProduct = () => {
           </div>
         </div>
         <div className=" overflow-y-scroll h-[800px] ">
-          {simillerCategorys.length &&
+          {simillerCategorys.length === 0 ? (
+            <SmallLoading />
+          ) : (
+            simillerCategorys.length &&
             simillerCategorys?.map((simillerCategory) => (
               <div key={simillerCategory._id} className=" mb-5  ">
                 <div className=" ">
@@ -210,7 +297,8 @@ const SingleProduct = () => {
                   </div>
                 </div>
               </div>
-            ))}
+            ))
+          )}
         </div>
         {/* modal code start  */}
         <Modal

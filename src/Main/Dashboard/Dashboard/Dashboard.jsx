@@ -238,7 +238,7 @@ const Dashboard = () => {
                     </div>
                   </div>
 
-                  <Link to="/">
+                  <Link to="/products">
                     <button
                       //   onClick={openModal}
                       className="btn w-full bg-[#F01543] text-lg my-3 text-white hover:bg-black "
