@@ -37,18 +37,22 @@ const BookingOrders = () => {
       queryKey: ["orders", user?.email],
       queryFn: async () => {
         const res = await fetch(
-          `http://localhost:5000/api/v1/orders/?email=${user?.email}`
+          `http://localhost:5000/api/v1/users/?email=${user?.email}`
         );
         const data = await res.json();
         return data.data;
       },
     });
-    // console.log("my orders", orders);
+    console.log("my orders", orders);
 
     const deleteHandler = (id) => {
       console.log("delete id", id);
-      fetch(`http://localhost:5000/api/v1/orders/${id}`, {
-        method: "DELETE",
+      fetch(`http://localhost:5000/api/v1/users/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: user?.email }),
       })
         .then((res) => res.json())
         .then((data) => {
@@ -58,6 +62,7 @@ const BookingOrders = () => {
               text: "You clicked the button!",
               icon: "success",
             });
+            console.log(data.data)
             refetch();
           }
         });
@@ -160,10 +165,10 @@ const BookingOrders = () => {
                 </tr>
               </thead>
               <tbody>
-                {orders?.length ? (
+                {orders?.orders?.length ? (
                   <>
                     {isLoading && <div> loading.... </div>}
-                    {orders?.map((order) => (
+                    {orders?.orders?.map((order) => (
                       <>
                         <tr key={order?._id}>
                           <td>
@@ -191,7 +196,7 @@ const BookingOrders = () => {
                           <td className="font-bold">{order?.orderQuantity}</td>
                           <td>
                             <button
-                              onClick={() => deleteHandler(order._id)}
+                              onClick={() => deleteHandler(order.orderId)}
                               className=" bg-red-500 text-white px-5 py-2 rounded mr-2"
                             >
                               Delete

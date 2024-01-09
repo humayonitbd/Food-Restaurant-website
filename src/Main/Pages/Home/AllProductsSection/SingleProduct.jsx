@@ -30,7 +30,7 @@ const SingleProduct = () => {
   const { id } = useParams();
   const [idx, setIdx] = useState(id);
   const [favoriteText, setFavoriteText] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   useEffect(() => {
     fetch(`http://localhost:5000/api/v1/allProductsData/${idx}`)
       .then((res) => res.json())
@@ -68,8 +68,97 @@ const SingleProduct = () => {
 
   //modal code end
 
-  const handleSubmitBtnModal = (e) => {
+  // const handleSubmitConformOrder = (e) => {
+  //   e.preventDefault();
+  //   const order = {
+  //     orderId: singleProducts._id,
+  //     orderName: singleProducts.name,
+  //     orderImg: singleProducts.img,
+  //     orderPrice: `${singleProducts.price * quantity}`,
+  //     orderQuantity: quantity,
+  //     orderCategory: singleProducts.category,
+  //     userGmail: user?.email,
+  //     status:"Conform"
+  //   };
+  //   console.log(order);
+
+  //   fetch(`http://localhost:5000/api/v1/users`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "content-type": "application/json",
+  //     },
+  //     body: JSON.stringify(order),
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error(`HTTP error! Status: ${res.status}`);
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       if (data.success) {
+  //         Swal.fire({
+  //           title: `${data.message}`,
+  //           text: "You clicked the button!",
+  //           icon: "success",
+  //         });
+  //         // refetch;
+  //         // navigate("/dashboard");
+  //         // refetch();
+  //       }
+  //       console.log(data);
+  //     });
+  //   setIsOpen(false);
+  // };
+
+  // const handleSubmitConformOrder = (e) => {
+  //   e.preventDefault();
+
+  //   const order = {
+  //     orderId: singleProducts._id,
+  //     orderName: singleProducts.name,
+  //     orderImg: singleProducts.img,
+  //     orderPrice: `${singleProducts.price * quantity}`,
+  //     orderQuantity: quantity,
+  //     orderCategory: singleProducts.category,
+  //     userGmail: user?.email,
+  //     status: "Conform",
+  //   };
+
+  //   fetch(`http://localhost:5000/api/v1/orders/${user.email}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(order),
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error(`HTTP error! Status: ${res.status}`);
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       if (data.success) {
+  //         Swal.fire({
+  //           title: `${data.message}`,
+  //           text: "You clicked the button!",
+  //           icon: "success",
+  //         });
+  //       }
+  //       console.log(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //       // Handle errors here
+  //     });
+
+  //   setIsOpen(false);
+  // };
+
+  const handleSubmitConformOrder = (e) => {
     e.preventDefault();
+
     const order = {
       orderId: singleProducts._id,
       orderName: singleProducts.name,
@@ -78,18 +167,28 @@ const SingleProduct = () => {
       orderQuantity: quantity,
       orderCategory: singleProducts.category,
       userGmail: user?.email,
-      status:"Conform"
+      status: "Conform",
     };
-    console.log(order);
 
-    fetch(`http://localhost:5000/api/v1/orders`, {
-      method: "POST",
+    fetch(`http://localhost:5000/api/v1/users/?email=${user.email}`, {
+      method: "PATCH",
       headers: {
-        "content-type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(order),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Invalid response format. Expected JSON.");
+        }
+
+        return res.json();
+      })
       .then((data) => {
         if (data.success) {
           Swal.fire({
@@ -97,14 +196,17 @@ const SingleProduct = () => {
             text: "You clicked the button!",
             icon: "success",
           });
-          // refetch;
-          navigate("/dashboard");
-          // refetch();
         }
         console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors here, including non-JSON responses
       });
+
     setIsOpen(false);
   };
+
 
   const FavoriteProductHandler=()=>{
     const favoriteorder = {
@@ -309,7 +411,7 @@ const SingleProduct = () => {
           contentLabel="Example Modal"
         >
           <form
-            onSubmit={handleSubmitBtnModal}
+            onSubmit={handleSubmitConformOrder}
             className="modal-box w-full shadow-none "
           >
             <div className="text-center border-4 border-[#F01543] p-3 rounded">

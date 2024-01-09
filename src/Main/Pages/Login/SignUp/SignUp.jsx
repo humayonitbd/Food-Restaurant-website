@@ -46,6 +46,9 @@ const SignUp = () => {
               email: email,
               password: password,
               role: "user",
+              oders:[],
+              favorite:[],
+              reports:[]
             };
             console.log(userData);
 
