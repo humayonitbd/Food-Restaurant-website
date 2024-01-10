@@ -7,9 +7,14 @@ import logo from '../../assets/footer-logo.svg';
 import { IoSearchCircle } from "react-icons/io5";
 import { AuthContext } from "../Context/AuthProvider";
 import Swal from "sweetalert2";
+// import UserProducts from "../Utils/UserProducts";
+
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
+
+  // const usersData = UserProducts(user?.email);
+  // console.log("usersData", usersData);
 
   const logOutHandler = () => {
     logOut()

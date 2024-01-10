@@ -3,11 +3,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BsCartPlus } from 'react-icons/bs';
 import { FaRegCircleCheck, FaStar } from 'react-icons/fa6';
 // import { BsCartPlus } from 'react-icons/bs';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link,  useParams } from 'react-router-dom';
 import Modal from "react-modal";
 import { AuthContext } from '../../../Context/AuthProvider';
 import Swal from "sweetalert2";
 import SmallLoading from '../../../SharedPage/Loading/SmallLoading';
+
+import { useQuery } from '@tanstack/react-query';
+import UserProducts from '../../../Utils/UserProducts';
 
 const customStyles = {
   content: {
@@ -25,18 +28,33 @@ const customStyles = {
 const SingleProduct = () => {
   const { user } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
-  const [singleProducts, setSingleProducts] = useState({});
   const [simillerCategorys, setSimillerCategorys] = useState({});
   const { id } = useParams();
   const [idx, setIdx] = useState(id);
+  // const [userData, setUserData] = useState(null);
+  const [favoriteProduct, setFavoriteProduct] = useState({});
   const [favoriteText, setFavoriteText] = useState("");
   // const navigate = useNavigate();
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/allProductsData/${idx}`)
-      .then((res) => res.json())
-      .then((data) => setSingleProducts(data.data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [idx]);
+  const { data: singleProducts = {} } = useQuery({
+    queryKey: ["singleProducts", idx],
+    queryFn: async () => {
+      const res = await fetch(
+        `http://localhost:5000/api/v1/allProductsData/${idx}`
+      );
+      const data = await res.json();
+      return data.data;
+    },
+  });
+
+  // console.log("singleProducts", singleProducts);
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/api/v1/allProductsData/${idx}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setSingleProducts(data.data))
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, [idx]);
+
   // console.log(singleProduct.category);
   // console.log("idx", idx);
   // console.log("singleProduct", singleProducts);
@@ -50,6 +68,24 @@ const SingleProduct = () => {
   }, [singleProducts?.category]);
   console.log("single category", singleProducts.category);
   //modal code start
+
+  const userData = UserProducts(user?.email);
+
+  useEffect(() => {
+    // console.log("userData", userData, "singleProducts", singleProducts?._id);
+    if (userData) {
+      const favoriteItems = userData?.favorites?.find(
+        (favorite) => favorite.orderId === singleProducts._id
+      );
+      setFavoriteProduct(favoriteItems);
+    }
+  }, [userData, singleProducts._id]);
+
+  console.log("favoriteProduct", favoriteProduct);
+  //""
+
+  console.log("this si favorite product", favoriteProduct?.status);
+
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -67,94 +103,6 @@ const SingleProduct = () => {
   }
 
   //modal code end
-
-  // const handleSubmitConformOrder = (e) => {
-  //   e.preventDefault();
-  //   const order = {
-  //     orderId: singleProducts._id,
-  //     orderName: singleProducts.name,
-  //     orderImg: singleProducts.img,
-  //     orderPrice: `${singleProducts.price * quantity}`,
-  //     orderQuantity: quantity,
-  //     orderCategory: singleProducts.category,
-  //     userGmail: user?.email,
-  //     status:"Conform"
-  //   };
-  //   console.log(order);
-
-  //   fetch(`http://localhost:5000/api/v1/users`, {
-  //     method: "PATCH",
-  //     headers: {
-  //       "content-type": "application/json",
-  //     },
-  //     body: JSON.stringify(order),
-  //   })
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error(`HTTP error! Status: ${res.status}`);
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       if (data.success) {
-  //         Swal.fire({
-  //           title: `${data.message}`,
-  //           text: "You clicked the button!",
-  //           icon: "success",
-  //         });
-  //         // refetch;
-  //         // navigate("/dashboard");
-  //         // refetch();
-  //       }
-  //       console.log(data);
-  //     });
-  //   setIsOpen(false);
-  // };
-
-  // const handleSubmitConformOrder = (e) => {
-  //   e.preventDefault();
-
-  //   const order = {
-  //     orderId: singleProducts._id,
-  //     orderName: singleProducts.name,
-  //     orderImg: singleProducts.img,
-  //     orderPrice: `${singleProducts.price * quantity}`,
-  //     orderQuantity: quantity,
-  //     orderCategory: singleProducts.category,
-  //     userGmail: user?.email,
-  //     status: "Conform",
-  //   };
-
-  //   fetch(`http://localhost:5000/api/v1/orders/${user.email}`, {
-  //     method: "PATCH",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(order),
-  //   })
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error(`HTTP error! Status: ${res.status}`);
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       if (data.success) {
-  //         Swal.fire({
-  //           title: `${data.message}`,
-  //           text: "You clicked the button!",
-  //           icon: "success",
-  //         });
-  //       }
-  //       console.log(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //       // Handle errors here
-  //     });
-
-  //   setIsOpen(false);
-  // };
 
   const handleSubmitConformOrder = (e) => {
     e.preventDefault();
@@ -207,8 +155,7 @@ const SingleProduct = () => {
     setIsOpen(false);
   };
 
-
-  const FavoriteProductHandler=()=>{
+  const FavoriteProductHandler = () => {
     const favoriteorder = {
       orderId: singleProducts._id,
       orderName: singleProducts.name,
@@ -220,48 +167,67 @@ const SingleProduct = () => {
       status: "Pending",
     };
     console.log(favoriteorder);
-    fetch(`http://localhost:5000/api/v1/orders`, {
-      method: "POST",
+
+    fetch(`http://localhost:5000/api/v1/users/favorites/?email=${user.email}`, {
+      method: "PATCH",
       headers: {
-        "content-type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(favoriteorder),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Invalid response format. Expected JSON.");
+        }
+
+        return res.json();
+      })
       .then((data) => {
         if (data.success) {
           Swal.fire({
-            title: `Favorite Product Conform !!`,
-            text: "You clicked the button!!",
+            title: `${data.message}`,
+            text: "You clicked the button!",
             icon: "success",
           });
-          // refetch;
-         
-          // refetch();
         }
+        // refetch();
         console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors here, including non-JSON responses
       });
-  }
+  };
+
   const FavoriteProductDeleteHandler = (id) => {
-    fetch(`http://localhost:5000/api/v1/orders/${id}`, {
-      method: "DELETE",
+    console.log("delete id", id);
+    fetch(`http://localhost:5000/api/v1/users/favorites/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: user?.email }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           Swal.fire({
-            title: `Unfavorite Product Conform !!`,
-            text: "You clicked the button!!",
+            title: `${data.message}`,
+            text: "You clicked the button!",
             icon: "success",
           });
-          // refetch;
-
+          console.log(data.data);
           // refetch();
         }
-        console.log(data);
       });
   };
 
+  console.log("favoriteText", favoriteText);
   return (
     <div className="w-10/12 mx-auto bg-white pb-20 pt-10">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -294,15 +260,13 @@ const SingleProduct = () => {
                 <h2 className=" md:text-4xl font-bold my-4">
                   {singleProducts.name}
                 </h2>
-                {favoriteText === "Favotite1" ? (
+                {favoriteProduct?.status === "Pending" ||
+                favoriteText === "Favorite" ? (
                   <>
                     <button
-                      // onClick={FavoriteProductHandler}
-                      // onClick={(e) => setFavoriteText(e.target.innertext)}
-
                       onClick={() => {
                         FavoriteProductDeleteHandler(singleProducts._id);
-                        setFavoriteText("Favotite");
+                        setFavoriteText("Unfavorite");
                       }}
                       className={`bg-[#F01543] btn text-lg px-10 text-white hover:bg-orange-400`}
                     >
@@ -312,11 +276,9 @@ const SingleProduct = () => {
                 ) : (
                   <>
                     <button
-                      // onClick={FavoriteProductHandler}
-                      // onClick={(e) => setFavoriteText(e.target.innertext)}
                       onClick={() => {
                         FavoriteProductHandler();
-                        setFavoriteText("Favotite1");
+                        setFavoriteText("Favorite");
                       }}
                       className={`bg-orange-400 btn text-lg px-10 text-white hover:bg-orange-400`}
                     >
@@ -356,13 +318,26 @@ const SingleProduct = () => {
                     +
                   </button>
                 </div>
-                <button
-                  onClick={openModal}
-                  className="btn w-1/2 bg-[#F01543] text-lg text-white hover:bg-black "
-                >
-                  <BsCartPlus className="text-lg font-bold" />
-                  Add to Cart
-                </button>
+                {user?.email ? (
+                  <>
+                    <button
+                      onClick={openModal}
+                      className="btn w-1/2 bg-[#F01543] text-lg text-white hover:bg-black "
+                    >
+                      <BsCartPlus className="text-lg font-bold" />
+                      Add to Cart
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link className="w-1/2  " to="/signIn">
+                      <button className="btn w-full bg-[#F01543] text-lg text-white hover:bg-black ">
+                        <BsCartPlus className="text-lg font-bold" />
+                        Add to Cart
+                      </button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

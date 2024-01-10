@@ -1,40 +1,18 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useContext, useRef, useState } from 'react';
-import Modal from "react-modal";
+import React, { useContext } from 'react';
 import { AuthContext } from '../../Context/AuthProvider';
-import { useQuery } from '@tanstack/react-query';
-import bank from "../../../assets/bank.jpg";
-import bkash from "../../../assets/bkash_logo_0.jpg";
-import nagod from "../../../assets/Nagad-Logo.wine.png";
+import { useQuery } from "@tanstack/react-query";
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
-const customStyles = {
-  content: {
-    width: "35%",
-    height: "65%",
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-
-const BookingOrders = () => {
-    const { user } = useContext(AuthContext);
-    const [paymentProduct, setPaymentProduct] = useState({});
-    console.log("user eamil", user?.email);
-    //booking data get by email
-    const [paymentAccount, setPaymentAccount] = useState("bkash");
-    console.log(paymentAccount)
-
+const FavoriteOrders = () => {
+     const { user } = useContext(AuthContext);
     const {
-      data: orders = {},
+      data: favorites = {},
       refetch,
       isLoading,
     } = useQuery({
-      queryKey: ["orders", user?.email],
+      queryKey: ["favorites", user?.email],
       queryFn: async () => {
         const res = await fetch(
           `http://localhost:5000/api/v1/users/?email=${user?.email}`
@@ -43,11 +21,11 @@ const BookingOrders = () => {
         return data.data;
       },
     });
-    // console.log("my orders", orders);
+    console.log("my favorites ", favorites);
 
-    const deleteHandler = (id) => {
+    const deleteFavoriteHandler = (id) => {
       console.log("delete id", id);
-      fetch(`http://localhost:5000/api/v1/users/${id}`, {
+      fetch(`http://localhost:5000/api/v1/users/favorites/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -62,96 +40,19 @@ const BookingOrders = () => {
               text: "You clicked the button!",
               icon: "success",
             });
-            console.log(data.data)
+            console.log(data.data);
             refetch();
           }
         });
     };
-  
-   const subtitleRef = useRef(null);
-    const [modalIsOpen, setIsOpen] = useState(false);
 
-    function openPayModal(data) {
-      setPaymentProduct(data);
 
-      setIsOpen(true);
-    }
-    
 
-    function afterOpenModal() {
-      if (subtitleRef.current) {
-        subtitleRef.current.style.color = "#f00";
-      }
-    }
-
-    function closeModal() {
-      setIsOpen(false);
-    }
-
-    //modal code end
-
-    const handleSubmitBtnModal = (e) => {
-      e.preventDefault();
-      console.log("modal submit")
-      const form = e.target;
-      const accountNumber = form.payment.value;
-      if(accountNumber.length >= 15 ){
-        Swal.fire({
-          title: `Your Account Number is Rong !!!`,
-          text: "You clicked the button!",
-          icon: "success",
-        });
-        return;
-      }
-      const payInfo = {
-        pay: {
-          Method: paymentAccount,
-          AccountNumber: accountNumber,
-        },
-        payment: "paid",
-        email:user.email
-      };
-
-      fetch(
-        `http://localhost:5000/api/v1/users/${paymentProduct.orderMainId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(payInfo),
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            Swal.fire({
-              title: `${data.message}`,
-              text: "You clicked the button!",
-              icon: "success",
-            });
-            refetch();
-          }
-        });
-
-      //   setFilterSearch(queryFilter);
-      console.log("payInfo", payInfo);
-      setIsOpen(false);
-    };
-
-    // console.log(
-    //   "paymentProduct paymentProduct",
-    //   paymentProduct,
-    //   "oldID",
-    //   paymentProduct.bookingProductID
-    // );
-
-    //   console.log("myBookingPlace", myBookingPlace);
     return (
       <div>
         <div className="py-5 bg-[#F01543] mt-2">
           <h3 className="text-center text-2xl  font-bold text-white">
-            Booking Orders
+            Favorite Orders
           </h3>
         </div>
 
@@ -168,57 +69,52 @@ const BookingOrders = () => {
                 </tr>
               </thead>
               <tbody>
-                {orders?.orders?.length ? (
+                {favorites?.favorites?.length ? (
                   <>
                     {isLoading && <div> loading.... </div>}
-                    {orders?.orders?.map((order) => (
+                    {favorites?.favorites?.map((favorite) => (
                       <>
-                        <tr key={order?._id}>
+                        <tr key={favorite?._id}>
                           <td>
                             <div className="flex items-center space-x-3">
                               <div className="avatar">
                                 <div className="mask mask-squircle w-12 h-12">
                                   <img
                                     className=""
-                                    src={order?.orderImg}
+                                    src={favorite?.orderImg}
                                     alt="Avatar Tailwind CSS Component"
                                   />
                                 </div>
                               </div>
                               <div>
                                 <div className="font-bold text-lg">
-                                  {order?.orderName}
+                                  {favorite?.orderName}
                                 </div>
                                 <div className="text-sm opacity-50">
-                                  {order?.orderCategory}
+                                  {favorite?.orderCategory}
                                 </div>
                               </div>
                             </div>
                           </td>
-                          <td className="font-bold">${order?.orderPrice}</td>
-                          <td className="font-bold">{order?.orderQuantity}</td>
+                          <td className="font-bold">${favorite?.orderPrice}</td>
+                          <td className="font-bold">
+                            {favorite?.orderQuantity}
+                          </td>
                           <td>
                             <button
-                              onClick={() => deleteHandler(order.orderMainId)}
+                              onClick={() =>
+                                deleteFavoriteHandler(favorite.orderId)
+                              }
                               className=" bg-red-500 text-white px-5 py-2 rounded mr-2"
                             >
                               Delete
                             </button>
-                            {order.payment ? (
-                              <>
-                                <button className=" bg-green-500  text-white px-5  py-2 rounded">
-                                  PAID
+                            {favorite.status && (
+                              <Link to={`/products/${favorite.orderId}`}>
+                                <button className=" bg-blue-500  text-white px-5  py-2 rounded">
+                                  Conform Order
                                 </button>
-                              </>
-                            ) : (
-                              <>
-                                <button
-                                  onClick={() => openPayModal(order)}
-                                  className=" bg-blue-500  text-white px-5  py-2 rounded"
-                                >
-                                  PAY
-                                </button>
-                              </>
+                              </Link>
                             )}
                           </td>
                         </tr>
@@ -242,7 +138,7 @@ const BookingOrders = () => {
         </div>
 
         {/* //modal start  */}
-        <Modal
+        {/* <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
@@ -329,10 +225,10 @@ const BookingOrders = () => {
               </button>
             </div>
           </form>
-        </Modal>
+        </Modal> */}
         {/* //modal end  */}
       </div>
     );
 };
 
-export default BookingOrders;
+export default FavoriteOrders;

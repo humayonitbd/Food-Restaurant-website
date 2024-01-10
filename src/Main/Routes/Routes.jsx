@@ -10,6 +10,7 @@ import DashboardLayout from "../Layout/DashboardLayout/DashboardLayout";
 import Dashboard from "../Dashboard/Dashboard/Dashboard";
 import BookingOrders from "../Dashboard/BookingOrders/BookingOrders";
 import ErrorPage from "../SharedPage/ErrorPage/ErrorPage";
+import FavoriteOrders from "../Dashboard/FavoriteOrders/FavoriteOrders";
 
 export const router = createBrowserRouter([
   {
@@ -60,10 +61,10 @@ export const router = createBrowserRouter([
         path: "/dashboard/booking-orders",
         element: <BookingOrders />,
       },
-      // {
-      //   path: "/dashboard/favorite-place",
-      //   element: <FavoritePlace />,
-      // },
+      {
+        path: "/dashboard/favorite-orders",
+        element: <FavoriteOrders />,
+      },
       // {
       //   path: "/dashboard/dislike-place",
       //   element: <DislikePlace />,

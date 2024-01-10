@@ -1,11 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useContext } from 'react';
 import './SignUp.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Context/AuthProvider';
 import Swal from 'sweetalert2';
 const SignUp = () => {
   const { userUpdateHandler, createUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handlerRegister = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -46,7 +47,7 @@ const SignUp = () => {
               email: email,
               password: password,
               role: "user",
-              oders:[],
+              orders:[],
               favorite:[],
               reports:[]
             };
@@ -75,7 +76,7 @@ const SignUp = () => {
               icon: "success",
             });
             form.reset();
-            //   navigete('/');
+              navigate("/");
           })
           .catch((error) => console.log(error.message));
       });
