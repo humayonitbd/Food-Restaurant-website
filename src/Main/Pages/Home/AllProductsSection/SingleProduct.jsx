@@ -31,11 +31,10 @@ const SingleProduct = () => {
   const [simillerCategorys, setSimillerCategorys] = useState({});
   const { id } = useParams();
   const [idx, setIdx] = useState(id);
-  // const [userData, setUserData] = useState(null);
   const [favoriteProduct, setFavoriteProduct] = useState({});
   const [favoriteText, setFavoriteText] = useState("");
   // const navigate = useNavigate();
-  const { data: singleProducts = {} } = useQuery({
+  const { data: singleProducts = {}, refetch } = useQuery({
     queryKey: ["singleProducts", idx],
     queryFn: async () => {
       const res = await fetch(
@@ -46,18 +45,6 @@ const SingleProduct = () => {
     },
   });
 
-  // console.log("singleProducts", singleProducts);
-
-  // useEffect(() => {
-  //   fetch(`http://localhost:5000/api/v1/allProductsData/${idx}`)
-  //     .then((res) => res.json())
-  //     .then((data) => setSingleProducts(data.data))
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, [idx]);
-
-  // console.log(singleProduct.category);
-  // console.log("idx", idx);
-  // console.log("singleProduct", singleProducts);
   useEffect(() => {
     fetch(
       `http://localhost:5000/api/v1/allProductsData/?category=${singleProducts?.category}`
@@ -72,7 +59,6 @@ const SingleProduct = () => {
   const userData = UserProducts(user?.email);
 
   useEffect(() => {
-    // console.log("userData", userData, "singleProducts", singleProducts?._id);
     if (userData) {
       const favoriteItems = userData?.favorites?.find(
         (favorite) => favorite.orderId === singleProducts._id
@@ -81,11 +67,7 @@ const SingleProduct = () => {
     }
   }, [userData, singleProducts._id]);
 
-  console.log("favoriteProduct", favoriteProduct);
-  //""
-
-  console.log("this si favorite product", favoriteProduct?.status);
-
+  
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -160,7 +142,7 @@ const SingleProduct = () => {
       orderId: singleProducts._id,
       orderName: singleProducts.name,
       orderImg: singleProducts.img,
-      orderPrice: `${singleProducts.price * quantity}`,
+      orderPrice: singleProducts.price,
       orderQuantity: quantity,
       orderCategory: singleProducts.category,
       userGmail: user?.email,
@@ -195,7 +177,7 @@ const SingleProduct = () => {
             icon: "success",
           });
         }
-        // refetch();
+        refetch();
         console.log(data);
       })
       .catch((error) => {
@@ -222,7 +204,7 @@ const SingleProduct = () => {
             icon: "success",
           });
           console.log(data.data);
-          // refetch();
+          refetch();
         }
       });
   };

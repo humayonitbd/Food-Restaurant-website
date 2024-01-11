@@ -5,7 +5,7 @@ import { FaStar } from "react-icons/fa6";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { BsCartPlus } from "react-icons/bs";
 import SmallLoading from "../../../SharedPage/Loading/SmallLoading";
-
+import { FaHeart } from "react-icons/fa";
 
 const AllProductsSection = () => {
   const [categorys, setCategorys] = useState([]);
@@ -86,9 +86,14 @@ const AllProductsSection = () => {
                 <figure>
                   <img
                     src={categoryProduct.img}
-                    className="w-full h-72"
+                    className="w-full h-72 relative "
                     alt="Shoes"
                   />
+                  <Link to={`/products/${categoryProduct._id}`}>
+                    <span className="absolute w-12 h-12 bg-[#F01543] rounded-full flex justify-center items-center top-2 right-2 ">
+                      <FaHeart className="  text-white  text-3xl    " />
+                    </span>
+                  </Link>{" "}
                 </figure>
                 <div className="card-body">
                   <div className="flex justify-between items-center">

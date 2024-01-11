@@ -139,14 +139,6 @@ const BookingOrders = () => {
       setIsOpen(false);
     };
 
-    // console.log(
-    //   "paymentProduct paymentProduct",
-    //   paymentProduct,
-    //   "oldID",
-    //   paymentProduct.bookingProductID
-    // );
-
-    //   console.log("myBookingPlace", myBookingPlace);
     return (
       <div>
         <div className="py-5 bg-[#F01543] mt-2">

@@ -1,12 +1,27 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../Context/AuthProvider';
 import { useQuery } from "@tanstack/react-query";
 import Swal from 'sweetalert2';
-import { Link } from 'react-router-dom';
+import Modal from "react-modal";
+const customStyles = {
+  content: {
+    width:"35%",
+    height:"60%",
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 
 const FavoriteOrders = () => {
      const { user } = useContext(AuthContext);
+    //  const [pendingOrderId, setPendingOrderId]=useState("");
+     const [pendingOrders, setPendingOrders]=useState({});
+     const [quantity, setQuantity] = useState(1);
     const {
       data: favorites = {},
       refetch,
@@ -21,7 +36,33 @@ const FavoriteOrders = () => {
         return data.data;
       },
     });
-    console.log("my favorites ", favorites);
+    // console.log("my favorites ", favorites);
+
+
+  const subtitleRef = useRef();
+
+  // let subtitle;
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal(id) {
+    const singlePendingProduct = favorites?.favorites?.find(
+      (favorite) => favorite.orderMainId === id);
+    setPendingOrders(singlePendingProduct);
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // Access the subtitleRef.current to set styles
+    if (subtitleRef.current) {
+      subtitleRef.current.style.color = "#f00";
+    }
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+
 
     const deleteFavoriteHandler = (id) => {
       console.log("delete id", id);
@@ -46,7 +87,66 @@ const FavoriteOrders = () => {
         });
     };
 
+    
 
+    const HandlerConformPendingOrder=(e)=>{
+      e.preventDefault();
+
+      const order = {
+        orderId: pendingOrders.orderId,
+        orderMainIdPending:pendingOrders.orderMainId,
+        orderName: pendingOrders.orderName,
+        orderImg: pendingOrders.orderImg,
+        orderPrice: `${pendingOrders.orderPrice * quantity}`,
+        orderQuantity: quantity,
+        orderCategory: pendingOrders.orderCategory,
+        userGmail: user?.email,
+        status: "Conform",
+      };
+
+      // console.log(pendingOrders.orderMainId, order);
+
+      fetch(`http://localhost:5000/api/v1/users/?email=${user.email}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(order),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+          }
+
+          const contentType = res.headers.get("content-type");
+          if (!contentType || !contentType.includes("application/json")) {
+            console.error("Unexpected Content-Type:", contentType);
+            return res.text(); // Log the raw response text
+          }
+
+          return res.json();
+        })
+        .then((data) => {
+          if (data.success) {
+            Swal.fire({
+              title: `${data.message}`,
+              text: "You clicked the button!",
+              icon: "success",
+            });
+          }
+          console.log(data);
+           setIsOpen(false);
+           refetch();
+          
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Handle errors here, including non-JSON responses
+        })
+        
+    }
+
+    // console.log("pendingOrder", pendingOrders);
 
     return (
       <div>
@@ -109,12 +209,17 @@ const FavoriteOrders = () => {
                             >
                               Delete
                             </button>
-                            {favorite.status && (
-                              <Link to={`/products/${favorite.orderId}`}>
-                                <button className=" bg-blue-500  text-white px-5  py-2 rounded">
-                                  Conform Order
-                                </button>
-                              </Link>
+                            {favorite.status === "Conform" ? (
+                              <button className=" bg-green-500  text-white px-5  py-2 rounded">
+                                Conform Order
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => openModal(favorite.orderMainId)}
+                                className=" bg-blue-500  text-white px-5  py-2 rounded"
+                              >
+                                Pending Order
+                              </button>
                             )}
                           </td>
                         </tr>
@@ -138,20 +243,23 @@ const FavoriteOrders = () => {
         </div>
 
         {/* //modal start  */}
-        {/* <Modal
+        <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <form ref={subtitleRef} onSubmit={handleSubmitBtnModal}>
+          <form onSubmit={(e) => e.preventDefault()}>
             <div className="flex flex-col  p-5">
-              <h3 className="text-xl font-bold text-[#F01543] text-center">
-                Bank Account Number
+              <h3
+                ref={subtitleRef}
+                className="text-xl font-bold text-[#F01543] text-center"
+              >
+                Conform Order
               </h3>
               <br />
-              <div className="md:flex justify-between items-center mb-3">
+              <div className=" mb-3">
                 <div className="">
                   <p className="text-black">
                     Email:{" "}
@@ -161,71 +269,66 @@ const FavoriteOrders = () => {
                     </span>
                   </p>
                 </div>
-                <div className="pr-5">
-                  <p className="text-black">
-                    Price:{" "}
-                    <span className=" font-bold">
-                      {" $"}
-                      {paymentProduct?.orderPrice}
+                <div className="my-3">
+                  <p>
+                    Name:{" "}
+                    <span className="font-bold">{pendingOrders.orderName}</span>
+                  </p>
+                  <p>
+                    Category:{" "}
+                    <span className="font-bold">
+                      {pendingOrders.orderCategory}
                     </span>
                   </p>
-                </div>
-              </div>
-              <div className="md:flex justify-between items-center mt-3 mb-5">
-                <div>
-                  <img
-                    onClick={() => setPaymentAccount("bank")}
-                    className={`${
-                      paymentAccount === "bank"
-                        ? "border-[#F01543]"
-                        : "border-white"
-                    } w-28  border-4  mb-2 md:mb-0  shadow-md px-6 py-3`}
-                    src={bank}
-                    alt="bank"
-                  />
+                  <p className="text-xl ">
+                    Price:
+                    <span className="font-bold text-black ml-2">
+                      ${pendingOrders.orderPrice * quantity}.00
+                    </span>
+                  </p>
+                  <p>
+                    Quantity: <span className="font-bold">{quantity}</span>
+                  </p>
                 </div>
                 <div>
-                  <img
-                    onClick={() => setPaymentAccount("bkash")}
-                    className={`${
-                      paymentAccount === "bkash"
-                        ? "border-[#F01543]"
-                        : "border-white"
-                    } w-28 border-4   mb-2 md:mb-0  shadow-md px-6 py-3`}
-                    src={bkash}
-                    alt="bkash"
-                  />
-                </div>
-                <div>
-                  <img
-                    onClick={() => setPaymentAccount("nagod")}
-                    className={`${
-                      paymentAccount === "nagod"
-                        ? "border-[#F01543]"
-                        : "border-white"
-                    } w-28 border-4  mb-2 md:mb-0  shadow-md px-6 py-3`}
-                    src={nagod}
-                    alt="nagod"
-                  />
+                  <button
+                    onClick={() => setQuantity(quantity - 1)}
+                    className={`rounded px-8 text-4xl bg-[#000929]  text-white hover:bg-black ${
+                      quantity <= 1 ? "disabled" : ""
+                    }`}
+                    disabled={quantity <= 1}
+                  >
+                    -
+                  </button>
+                  <button className="rounded px-5 mx-3 text-4xl bg-[#F01543]  text-white hover:bg-black ">
+                    {quantity}
+                  </button>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className=" rounded px-8  bg-[#000929] text-4xl text-white hover:bg-black "
+                  >
+                    +
+                  </button>
                 </div>
               </div>
-              <div className="my-2">
-                <label className="text-black font-bold">Account Number:</label>
-                <br />
-                <input
-                  type="number"
-                  className="border border-stone-300 p-2 w-full text-black"
-                  name="payment"
-                  placeholder="type account number..."
-                />
+              <div className="flex justify-center mt-8">
+                <button
+                  onClick={closeModal}
+                  className="btn mr-10 bg-[#F01543] text-white text-lg px-10"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={HandlerConformPendingOrder}
+                  type="button"
+                  className="btn bg-green-600 text-white text-lg"
+                >
+                  Confrom Order
+                </button>
               </div>
-
-              <button type="submit" className="btn btn-primary text-white my-3">
-                submit
-              </button>
             </div>
           </form>
-        </Modal> */}
+        </Modal>
         {/* //modal end  */}
       </div>
     );
