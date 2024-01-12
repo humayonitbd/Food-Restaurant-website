@@ -32,6 +32,7 @@ const SingleProduct = () => {
   const { id } = useParams();
   const [idx, setIdx] = useState(id);
   const [favoriteProduct, setFavoriteProduct] = useState({});
+  const [reportProduct, setReportProduct] = useState({});
   const [favoriteText, setFavoriteText] = useState("");
   // const navigate = useNavigate();
   const { data: singleProducts = {}, refetch } = useQuery({
@@ -67,6 +68,17 @@ const SingleProduct = () => {
     }
   }, [userData, singleProducts._id]);
 
+  //reported btn implementetion 
+  useEffect(() => {
+    if (userData) {
+      const reportedItems = userData?.reports?.find(
+        (report) => report.orderId === singleProducts._id
+      );
+      setReportProduct(reportedItems);
+    }
+  }, [userData, singleProducts._id]);
+
+  // console.log("reportProduct", reportProduct);
   
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -209,7 +221,57 @@ const SingleProduct = () => {
       });
   };
 
-  console.log("favoriteText", favoriteText);
+  const ReportHandler =(e)=>{
+    e.preventDefault();
+    const form = e.target;
+    const reportText = form.reportText.value;
+
+    const report = {
+      orderId: singleProducts._id,
+      orderName: singleProducts.name,
+      orderImg: singleProducts.img,
+      orderCategory: singleProducts.category,
+      userGmail: user?.email,
+      reportText: reportText,
+    };
+
+    fetch(`http://localhost:5000/api/v1/users/reports/?email=${user.email}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(report),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Invalid response format. Expected JSON.");
+        }
+
+        return res.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          Swal.fire({
+            title: `${data.message}`,
+            text: "You clicked the button!",
+            icon: "success",
+          });
+        }
+        form.reset();
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors here, including non-JSON responses
+      });
+    
+    console.log("reportText", report);
+  }
   return (
     <div className="w-10/12 mx-auto bg-white pb-20 pt-10">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -323,6 +385,32 @@ const SingleProduct = () => {
               </div>
             </div>
           </div>
+          <form onSubmit={ReportHandler}>
+            <textarea
+              type="text"
+              name="reportText"
+              className="textarea w-full border-2 my-5 border-black textarea-bordered"
+              placeholder="Why you doing report for this Product!!"
+              required
+            ></textarea>
+            <br />
+            {reportProduct?.orderId === singleProducts?._id &&
+            user?.email === reportProduct?.userGmail ? (
+              <button
+                type="submit"
+                className="w-full py-2 rounded font-bold bg-[#F01543] text-white text-xl "
+              >
+                Allready Reported
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="w-full py-2 rounded font-bold bg-[#F01543] text-white text-xl "
+              >
+                Report Submit
+              </button>
+            )}
+          </form>
         </div>
         <div className=" overflow-y-scroll h-[800px] ">
           {simillerCategorys.length === 0 ? (
@@ -359,6 +447,7 @@ const SingleProduct = () => {
             ))
           )}
         </div>
+
         {/* modal code start  */}
         <Modal
           isOpen={modalIsOpen}

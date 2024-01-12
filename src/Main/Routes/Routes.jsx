@@ -11,6 +11,7 @@ import Dashboard from "../Dashboard/Dashboard/Dashboard";
 import BookingOrders from "../Dashboard/BookingOrders/BookingOrders";
 import ErrorPage from "../SharedPage/ErrorPage/ErrorPage";
 import FavoriteOrders from "../Dashboard/FavoriteOrders/FavoriteOrders";
+import ReportProducts from "../Dashboard/ReportProducts/ReportProducts";
 
 export const router = createBrowserRouter([
   {
@@ -65,10 +66,10 @@ export const router = createBrowserRouter([
         path: "/dashboard/favorite-orders",
         element: <FavoriteOrders />,
       },
-      // {
-      //   path: "/dashboard/dislike-place",
-      //   element: <DislikePlace />,
-      // },
+      {
+        path: "/dashboard/reports-orders",
+        element: <ReportProducts />,
+      },
       // {
       //   path: "/dashboard/allUsers",
       //   element: <AllUsers />,

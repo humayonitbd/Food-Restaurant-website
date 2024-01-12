@@ -90,9 +90,9 @@ const DashboardLayout = () => {
                       Favorite Orders
                     </li>
                   </Link>
-                  <Link to="/dashboard/dislike-place">
+                  <Link to="/dashboard/reports-orders">
                     <li className=" rounded text-lg p-2 bg-white text-black mb-4">
-                      Report Orders
+                      Reports Orders
                     </li>
                   </Link>
                 </>
