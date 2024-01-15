@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main/Main";
 import Home from "../Pages/Home/Home/Home";
-import About from "../Pages/About/About";
 import SignIn from "../Pages/Login/SignIn";
 import SignUp from "../Pages/Login/SignUp/SignUp";
 import Products from "../Pages/Products/Products/Products";
@@ -12,6 +11,7 @@ import BookingOrders from "../Dashboard/BookingOrders/BookingOrders";
 import ErrorPage from "../SharedPage/ErrorPage/ErrorPage";
 import FavoriteOrders from "../Dashboard/FavoriteOrders/FavoriteOrders";
 import ReportProducts from "../Dashboard/ReportProducts/ReportProducts";
+import About from "../Pages/About/About/About";
 
 export const router = createBrowserRouter([
   {
@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About />,
+        element: <About />
       },
       {
         path: "/products",
