@@ -2,12 +2,14 @@
 import React from 'react';
 import AboutBanner from '../AboutBanner/AboutBanner';
 import OurStory from '../OurStory/OurStory';
+import ProssesExpreriance from '../ProssesExpreriance/ProssesExpreriance';
 
 const About = () => {
     return (
         <div>
             <AboutBanner />
             <OurStory />
+            <ProssesExpreriance />
         </div>
     );
 };
