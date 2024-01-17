@@ -14,7 +14,7 @@ const ProssesExpreriance = () => {
           </div>
           <div className="md:ml-20 ml-3">
             <div className="">
-              <h1 className="text-5xl text-white font-semibold">
+              <h1 className="text-5xl text-white font-semibold leading-tight">
                 The Process of Crafting your Dining Experience
               </h1>
               <div className="my-10 md:mr-20">
@@ -85,7 +85,6 @@ const ProssesExpreriance = () => {
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
         </div>

@@ -7,14 +7,14 @@ import logo from '../../assets/footer-logo.svg';
 import { IoSearchCircle } from "react-icons/io5";
 import { AuthContext } from "../Context/AuthProvider";
 import Swal from "sweetalert2";
-// import UserProducts from "../Utils/UserProducts";
+import UserProducts from "../Utils/UserProducts";
 
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
 
-  // const usersData = UserProducts(user?.email);
-  // console.log("usersData", usersData);
+  const usersData = UserProducts(user?.email);
+  console.log("usersData header", usersData);
 
   const logOutHandler = () => {
     logOut()
@@ -72,10 +72,24 @@ const Header = () => {
 
           <ul className="flex items-center ">
             <li className="mr-3">
-              <FaRegHeart className="border-2 hover:bg-[#F01543] border-white rounded-full p-3 text-5xl" />
+              <div className="relative">
+                <div className=" flex items-center justify-center">
+                  <FaRegHeart className="border-2 hover:bg-[#F01543] border-white rounded-full p-3 text-5xl" />
+                </div>
+                <span className="absolute text-white top-0 right-0 bg-[#F01543] rounded-full px-2">
+                  {usersData?.favorites ? usersData?.favorites?.length : "0"}
+                </span>
+              </div>
             </li>
             <li className="mr-3">
-              <BsCartPlus className="border-2 hover:bg-[#F01543] border-white rounded-full p-3 text-5xl" />
+              <div className="relative">
+                <div className=" flex items-center justify-center">
+                  <BsCartPlus className="border-2 hover:bg-[#F01543] border-white rounded-full p-3 text-5xl" />
+                </div>
+                <span className="absolute text-white top-0 right-0 bg-[#F01543] rounded-full px-2">
+                  {usersData?.orders ? usersData?.orders?.length : "0"}
+                </span>
+              </div>
             </li>
             {user?.email ? (
               <>

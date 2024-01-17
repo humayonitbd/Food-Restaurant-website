@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-
+import './AboutBanner.css';
 const AboutBanner = () => {
     return (
         <div>
-            <div className='bg-black flex justify-center items-center py-20 text-4xl mt-1 text-white font-bold '>
+            <div className='abouteBanner z-50 flex justify-center items-center  text-4xl mt-1 text-white font-bold '>
                 <h2>About Section</h2>
             </div>
         </div>
