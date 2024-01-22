@@ -1,12 +1,20 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import './SignUp.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Context/AuthProvider';
 import Swal from 'sweetalert2';
+import useJwtToken from '../../../hooks/useJwtToken';
 const SignUp = () => {
   const { userUpdateHandler, createUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const [createEmail, setCreateEmail] = useState("");
+  const [token] = useJwtToken(createEmail);
+  if (token) {
+    // navigate(from, { replace: true });
+    navigate("/");
+  }
   const handlerRegister = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -47,9 +55,9 @@ const SignUp = () => {
               email: email,
               password: password,
               role: "user",
-              orders:[],
-              favorite:[],
-              reports:[]
+              orders: [],
+              favorite: [],
+              reports: [],
             };
             console.log(userData);
 
@@ -67,7 +75,7 @@ const SignUp = () => {
                   // refetch();
                 }
 
-                // setCreateEmail(userData.email);
+                setCreateEmail(userData.email);
               });
 
             Swal.fire({
@@ -76,7 +84,7 @@ const SignUp = () => {
               icon: "success",
             });
             form.reset();
-              navigate("/");
+            // navigate("/");
           })
           .catch((error) => console.log(error.message));
       });

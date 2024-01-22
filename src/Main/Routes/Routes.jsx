@@ -12,6 +12,7 @@ import ErrorPage from "../SharedPage/ErrorPage/ErrorPage";
 import FavoriteOrders from "../Dashboard/FavoriteOrders/FavoriteOrders";
 import ReportProducts from "../Dashboard/ReportProducts/ReportProducts";
 import About from "../Pages/About/About/About";
+import PrivetRoute from "./PrivetRoute";
 
 export const router = createBrowserRouter([
   {
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About />
+        element: <About />,
       },
       {
         path: "/products",
@@ -51,24 +52,44 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivetRoute>
+        <DashboardLayout />
+      </PrivetRoute>
+    ),
 
     children: [
       {
         path: "/dashboard",
-        element: <Dashboard></Dashboard>,
+        element: (
+          <PrivetRoute>
+            <Dashboard></Dashboard>
+          </PrivetRoute>
+        ),
       },
       {
         path: "/dashboard/booking-orders",
-        element: <BookingOrders />,
+        element: (
+          <PrivetRoute>
+            <BookingOrders />
+          </PrivetRoute>
+        ),
       },
       {
         path: "/dashboard/favorite-orders",
-        element: <FavoriteOrders />,
+        element: (
+          <PrivetRoute>
+            <FavoriteOrders />
+          </PrivetRoute>
+        ),
       },
       {
         path: "/dashboard/reports-orders",
-        element: <ReportProducts />,
+        element: (
+          <PrivetRoute>
+            <ReportProducts />
+          </PrivetRoute>
+        ),
       },
       // {
       //   path: "/dashboard/allUsers",
