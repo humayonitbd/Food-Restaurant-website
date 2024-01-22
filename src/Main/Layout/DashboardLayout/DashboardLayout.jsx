@@ -36,7 +36,7 @@ const DashboardLayout = () => {
               <div className=" mb-5">
                 <div className="flex justify-center my-2">
                   <img
-                    className="h-16 w-16  text-center border-4 p-1 border-[#F01543] rounded-full"
+                    className="h-16 w-16 cursor-pointer  text-center border-4 p-1 border-[#F01543] rounded-full"
                     src={user?.photoURL}
                     alt=""
                   />

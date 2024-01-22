@@ -72,24 +72,28 @@ const Header = () => {
 
           <ul className="flex items-center ">
             <li className="mr-3">
-              <div className="relative">
-                <div className=" flex items-center justify-center">
-                  <FaRegHeart className="border-2 hover:bg-[#F01543] border-white rounded-full p-3 text-5xl" />
+              <Link to="/dashboard/favorite-orders">
+                <div className="relative">
+                  <div className=" flex items-center justify-center">
+                    <FaRegHeart className="border-2 hover:bg-[#F01543] border-white rounded-full p-3 text-5xl" />
+                  </div>
+                  <span className="absolute text-white top-0 right-0 bg-[#F01543] rounded-full px-2">
+                    {usersData?.favorites ? usersData?.favorites?.length : "0"}
+                  </span>
                 </div>
-                <span className="absolute text-white top-0 right-0 bg-[#F01543] rounded-full px-2">
-                  {usersData?.favorites ? usersData?.favorites?.length : "0"}
-                </span>
-              </div>
+              </Link>
             </li>
             <li className="mr-3">
-              <div className="relative">
-                <div className=" flex items-center justify-center">
-                  <BsCartPlus className="border-2 hover:bg-[#F01543] border-white rounded-full p-3 text-5xl" />
+              <Link to="/dashboard/booking-orders">
+                <div className="relative">
+                  <div className=" flex items-center justify-center">
+                    <BsCartPlus className="border-2 hover:bg-[#F01543] border-white rounded-full p-3 text-5xl" />
+                  </div>
+                  <span className="absolute text-white top-0 right-0 bg-[#F01543] rounded-full px-2">
+                    {usersData?.orders ? usersData?.orders?.length : "0"}
+                  </span>
                 </div>
-                <span className="absolute text-white top-0 right-0 bg-[#F01543] rounded-full px-2">
-                  {usersData?.orders ? usersData?.orders?.length : "0"}
-                </span>
-              </div>
+              </Link>
             </li>
             {user?.email ? (
               <>
