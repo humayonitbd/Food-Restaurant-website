@@ -3,12 +3,13 @@ import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
 import Header from '../../SharedPage/Header';
+import useAdmin from '../../hooks/useAdmin';
 
 const DashboardLayout = () => {
     const { user } = useContext(AuthContext);
     // console.log(user);
-    // const [isAdmin] = useAdmin(user?.email);
-    const isAdmin = "dkdsksl";
+    const [isAdmin] = useAdmin(user?.email);
+    // const isAdmin = "dkdsksl";
     console.log(isAdmin);
     return (
       <div className="bg-white">
@@ -64,17 +65,17 @@ const DashboardLayout = () => {
                   </Link>
                   <Link to="/dashboard/AllPlace">
                     <li className=" rounded text-lg p-2 bg-white text-black mb-4">
-                      All Places
+                      All Orders Products
                     </li>
                   </Link>
                   <Link to="/dashboard/allBookedPlace">
                     <li className=" rounded text-lg p-2 bg-white text-black mb-4">
-                      All Booked Place
+                      All Favorites Products
                     </li>
                   </Link>
                   <Link to="/dashboard/allReportPlace">
-                    <li className=" rounded text-lg p-2 text-black mb-4">
-                      All Report Place
+                    <li className=" rounded text-lg p-2 bg-white text-black mb-4">
+                      All Reports Products
                     </li>
                   </Link>
                 </>

@@ -150,8 +150,7 @@ const Dashboard = () => {
 
         <div className="grid md:grid-cols-3 grid-cols-1 gap-5 my-5">
           {bookingPlaces?.map((bookingPlace) => (
-            <>
-              <div key={bookingPlace.id}>
+              <div key={bookingPlace?.id}>
                 <div
                   className={`${bookingPlace.bgColor}  rounded text-start p-8 text-white `}
                 >
@@ -165,7 +164,7 @@ const Dashboard = () => {
                   <p>{bookingPlace.incress}</p>
                 </div>
               </div>
-            </>
+           
           ))}
         </div>
         {/* rechart start */}
@@ -217,8 +216,7 @@ const Dashboard = () => {
 
         <div className="grid md:grid-cols-3 grid-cols-1 gap-5 my-10">
           {leatesPlaces?.map((leatesPlace) => (
-            <>
-              <div key={leatesPlace.id} className="shadow-md">
+              <div key={leatesPlace?.id} className="shadow-md">
                 <img src={leatesPlace.img} className="w-full h-60" alt="" />
                 <div className="p-2">
                   <h3 className="text-lg font-semibold">{leatesPlace.name}</h3>
@@ -249,7 +247,6 @@ const Dashboard = () => {
                   </Link>
                 </div>
               </div>
-            </>
           ))}
         </div>
 
