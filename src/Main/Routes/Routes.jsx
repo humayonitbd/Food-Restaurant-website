@@ -13,6 +13,7 @@ import FavoriteOrders from "../Dashboard/FavoriteOrders/FavoriteOrders";
 import ReportProducts from "../Dashboard/ReportProducts/ReportProducts";
 import About from "../Pages/About/About/About";
 import PrivetRoute from "./PrivetRoute";
+import AllUsers from "../Dashboard/AllUsers/AllUsers";
 
 export const router = createBrowserRouter([
   {
@@ -91,10 +92,10 @@ export const router = createBrowserRouter([
           </PrivetRoute>
         ),
       },
-      // {
-      //   path: "/dashboard/allUsers",
-      //   element: <AllUsers />,
-      // },
+      {
+        path: "/dashboard/allUsers",
+        element: <AllUsers />,
+      },
       // {
       //   path: "/dashboard/allReportPlace",
       //   element: <AllReportPlaces />,

@@ -14,7 +14,7 @@ const Header = () => {
   const { user, logOut } = useContext(AuthContext);
 
   const usersData = UserProducts(user?.email);
-  console.log("usersData header", usersData);
+  // console.log("usersData header", usersData);
 
   const logOutHandler = () => {
     logOut()

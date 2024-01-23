@@ -49,11 +49,12 @@ const SignUp = () => {
           .then((result) => {
             const user = result.user;
             userUpdateHandler(name, userImg.img);
-            console.log(user);
+            console.log('user', user);
             const userData = {
               name: name,
               email: email,
               password: password,
+              userImg:user.photoURL,
               role: "user",
               orders: [],
               favorite: [],

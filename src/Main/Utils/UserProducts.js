@@ -1,17 +1,3 @@
-// import { useEffect, useState } from 'react';
-
-// export const UserProducts = (email) => {
-//     const [userInfoDetails, setUserInfoDetails] = useState({});
-
-//     useEffect(() => {
-//         fetch(`http://localhost:5000/api/v1/users/?email=${email}`)
-//             .then(res => res.json())
-//             .then(data => setUserInfoDetails(data.data));
-//     }, [email]);
-
-//     return userInfoDetails;
-// };
-
 
 import { useEffect, useState } from 'react';
 
