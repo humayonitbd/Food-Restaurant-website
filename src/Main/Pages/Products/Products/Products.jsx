@@ -16,7 +16,7 @@ const Products = () => {
         .then((data) => setAllProducts(data.data))
         .catch((error) => console.error("Error fetching data:", error));
     }, []);
-    console.log(allProducts)
+    // console.log(allProducts)
     return (
       <div className="py-20 w-11/12 mx-auto">
         {allProducts.length === 0 ? (

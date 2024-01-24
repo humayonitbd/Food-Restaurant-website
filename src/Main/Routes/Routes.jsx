@@ -18,6 +18,7 @@ import AllOrders from "../Dashboard/AllOrders/AllOrders";
 import AllFavorites from "../Dashboard/AllFavorites/AllFavorites";
 import AllReports from "../Dashboard/AllReports/AllReports";
 import AdminRoutes from "./AdminRoutes";
+import SearchPages from "../Pages/SearchPages/SearchPages";
 
 export const router = createBrowserRouter([
   {
@@ -49,18 +50,18 @@ export const router = createBrowserRouter([
         path: "/signUp",
         element: <SignUp />,
       },
-      //   {
-      //     path: "/productDetails/:id",
-      //     element: <ProductDetails />,
-      //   },
+        {
+          path: "/home/search-page-items",
+          element: <SearchPages />,
+        },
     ],
   },
   {
     path: "/dashboard",
     element: (
-      <PrivetRoute>
+     
         <DashboardLayout />
-      </PrivetRoute>
+      
     ),
 
     children: [

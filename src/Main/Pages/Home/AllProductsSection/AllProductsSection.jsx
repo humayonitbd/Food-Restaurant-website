@@ -47,15 +47,15 @@ const AllProductsSection = () => {
   }, [activeCategory]);
 
   return (
-    <div className="categorybg">
+    <div className="categoryProductBg">
       <div className="w-11/12 mx-auto pb-20  ">
-        <div className="text-center text-black text-5xl font-semibold">
-          <h2 className="leading-tight mb-10">
+        <div className="text-center text-black md:text-5xl text-2xl font-semibold">
+          <h2 className="leading-tight mb-5 md:mb-10">
             Some Traditional Food <br /> Based on Location
           </h2>
         </div>
 
-        <div className="flex justify-between border-2 p-3 rounded-md w-[795px] mx-auto ">
+        <div className="grid grid-cols-3 md:grid-cols-6  border-2 p-3 rounded-md md:w-[920px] mx-auto ">
           {categorys?.map((category) => (
             <ul className="" key={category._id}>
               <li
@@ -64,7 +64,7 @@ const AllProductsSection = () => {
                   activeCategory === category.category
                     ? "bg-[#F01543] text-white"
                     : "bg-white text-black"
-                } text-lg  border-2 border-stone-300 py-2 px-5 rounded-md `}
+                } text-lg  border-2 border-stone-300 py-2 px-5 mr-2 rounded-md `}
               >
                 {category.category}
               </li>
@@ -86,7 +86,7 @@ const AllProductsSection = () => {
                 <figure>
                   <img
                     src={categoryProduct.img}
-                    className="w-full h-72 relative "
+                    className="w-full md:h-72 relative "
                     alt="Shoes"
                   />
                   <Link to={`/products/${categoryProduct._id}`}>

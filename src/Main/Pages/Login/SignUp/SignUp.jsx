@@ -54,7 +54,7 @@ const SignUp = () => {
               name: name,
               email: email,
               password: password,
-              userImg:user.photoURL,
+              userImg: userImg.img,
               role: "user",
               orders: [],
               favorite: [],

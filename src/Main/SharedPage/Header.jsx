@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FaBars, FaRegHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsCartPlus } from "react-icons/bs";
 import logo from '../../assets/footer-logo.svg';
 import { IoSearchCircle } from "react-icons/io5";
@@ -12,9 +12,9 @@ import UserProducts from "../Utils/UserProducts";
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
-
   const usersData = UserProducts(user?.email);
   // console.log("usersData header", usersData);
+  const navigate = useNavigate();
 
   const logOutHandler = () => {
     logOut()
@@ -28,6 +28,18 @@ const Header = () => {
       .catch((error) => console.log(error));
   };
 
+  const searchHandlerSubmit =(e)=>{
+       e.preventDefault();
+        const form = e.target;
+        const name = form.searchText.value;
+       const query = {
+         searchText: name,
+       };
+       navigate("/home/search-page-items", { state: query });
+       form.reset();
+       
+
+  }
 
 
   return (
@@ -58,16 +70,21 @@ const Header = () => {
                 <Link to="/signIn">Dashboard</Link>
               </li>
             )}
-            <div className="mx-5 flex relative ">
+            <form onSubmit={searchHandlerSubmit} className="mx-5 flex  ">
               <div className="form-control">
                 <input
                   type="text"
+                  // onChange={(e) => setSearchText(e.target.value)}
+                  name="searchText"
                   placeholder="Search"
-                  className="input input-bordered text-black w-60 h-10 "
+                  required
+                  className="input input-bordered text-black w-60 h-10 rounded-l-lg rounded-r-none "
                 />
               </div>
-              <IoSearchCircle className="text-[40px] text-white absolute ml-52 bg-[#F01543] rounded  " />
-            </div>
+              <button type="submit">
+                <IoSearchCircle className="text-[40px] text-white  w-12 bg-[#F01543] rounded-r-lg rounded-l-none  " />
+              </button>
+            </form>
           </ul>
 
           <ul className="flex items-center ">

@@ -37,15 +37,15 @@ const OurCategory = () => {
   ];
 
   return (
-    <div className="categorybg pt-20 pb-10">
+    <div className="categorybg pt-5 md:pt-20  md:pb-10">
       <div className="w-11/12 mx-auto">
         <div className="flex justify-between items-center ">
-          <h1 className="text-5xl font-semibold">Our Categories</h1>
-          <button className="btn border-2 border-[#F01543] text-[#232122] hover:bg-[#F01543] hover:text-white bg-inherit text-xl px-5">
+          <h1 className="text-xl md:text-5xl font-semibold">Our Categories</h1>
+          <button className="btn border-2 border-[#F01543] text-[#232122] hover:bg-[#F01543] hover:text-white bg-inherit md:text-xl md:px-5">
             See more
           </button>
         </div>
-        <div className="md:flex justify-between items-center mt-16  ">
+        <div className="md:flex justify-between items-center mt-5 md:mt-16  ">
           {categoryServices?.map((categoryservice) => (
             <div
               key={categoryservice.id}
@@ -64,10 +64,10 @@ const OurCategory = () => {
           ))}
         </div>
         <div>
-          <div className="grid md:grid-cols-3  grid-cols-1 gap-7 py-20">
-            <img src={Burger} className=" w-full h-96 cursor-pointer " alt="" />
+          <div className="grid md:grid-cols-3  grid-cols-1 gap-7 md:py-20">
+            <img src={Burger} className=" w-full md:h-96 cursor-pointer " alt="" />
             <img
-              className="col-span-2 w-full h-96 cursor-pointer "
+              className="col-span-2 w-full md:h-96 cursor-pointer "
               src={ChichenBurger}
               alt=""
             />
