@@ -14,6 +14,10 @@ import ReportProducts from "../Dashboard/ReportProducts/ReportProducts";
 import About from "../Pages/About/About/About";
 import PrivetRoute from "./PrivetRoute";
 import AllUsers from "../Dashboard/AllUsers/AllUsers";
+import AllOrders from "../Dashboard/AllOrders/AllOrders";
+import AllFavorites from "../Dashboard/AllFavorites/AllFavorites";
+import AllReports from "../Dashboard/AllReports/AllReports";
+import AdminRoutes from "./AdminRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -94,20 +98,44 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/allUsers",
-        element: <AllUsers />,
+        element: (
+          <PrivetRoute>
+            <AdminRoutes>
+              <AllUsers />
+            </AdminRoutes>
+          </PrivetRoute>
+        ),
       },
-      // {
-      //   path: "/dashboard/allReportPlace",
-      //   element: <AllReportPlaces />,
-      // },
-      // {
-      //   path: "/dashboard/allBookedPlace",
-      //   element: <AllBookedPlace />,
-      // },
-      // {
-      //   path: "/dashboard/AllPlace",
-      //   element: <AllPlaces />,
-      // },
+      {
+        path: "/dashboard/AllOrders/:id",
+        element: (
+          <PrivetRoute>
+            <PrivetRoute>
+              <AllOrders />
+            </PrivetRoute>
+          </PrivetRoute>
+        ),
+      },
+      {
+        path: "/dashboard/allFavorites/:id",
+        element: (
+          <PrivetRoute>
+            <AdminRoutes>
+              <AllFavorites />
+            </AdminRoutes>
+          </PrivetRoute>
+        ),
+      },
+      {
+        path: "/dashboard/allReports/:id",
+        element: (
+          <PrivetRoute>
+            <AdminRoutes>
+              <AllReports />
+            </AdminRoutes>
+          </PrivetRoute>
+        ),
+      },
     ],
   },
 ]);

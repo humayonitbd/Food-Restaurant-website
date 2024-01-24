@@ -63,21 +63,21 @@ const DashboardLayout = () => {
                       All Users
                     </li>
                   </Link>
-                  <Link to="/dashboard/AllPlace">
+                  {/* <Link to="/dashboard/AllOrders">
                     <li className=" rounded text-lg p-2 bg-white text-black mb-4">
                       All Orders Products
                     </li>
                   </Link>
-                  <Link to="/dashboard/allBookedPlace">
+                  <Link to="/dashboard/allFavorites">
                     <li className=" rounded text-lg p-2 bg-white text-black mb-4">
                       All Favorites Products
                     </li>
                   </Link>
-                  <Link to="/dashboard/allReportPlace">
+                  <Link to="/dashboard/allReports">
                     <li className=" rounded text-lg p-2 bg-white text-black mb-4">
                       All Reports Products
                     </li>
-                  </Link>
+                  </Link> */}
                 </>
               ) : (
                 <>
