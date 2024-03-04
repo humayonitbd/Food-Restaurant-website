@@ -1,9 +1,10 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useContext, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../Context/AuthProvider';
-import Swal from 'sweetalert2';
-import useJwtToken from '../../hooks/useJwtToken';
+import React, { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthProvider";
+import Swal from "sweetalert2";
+import useJwtToken from "../../hooks/useJwtToken";
+// import loginImage from '../../../assets/about/login.png';
 
 const SignIn = () => {
   const { login, googleLogin } = useContext(AuthContext);
@@ -51,7 +52,7 @@ const SignIn = () => {
           role: "user",
         };
 
-        fetch(`http://localhost:5000/api/v1/users`, {
+        fetch(`https://food-restuarant-server.vercel.app/api/v1/users`, {
           method: "PUT",
           headers: {
             "content-type": "application/json",
@@ -76,7 +77,7 @@ const SignIn = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 ">
       <div className="loginbg ">
-        <div className="py-80"></div>
+        
       </div>
       <div className="card w-1/2 mx-auto my-auto  bg-white">
         <form

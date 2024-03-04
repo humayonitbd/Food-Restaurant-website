@@ -6,7 +6,9 @@ const useJwtToken = (email) => {
   console.log(email);
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:5000/api/v1/users/jwt?email=${email}`)
+      fetch(
+        `https://food-restuarant-server.vercel.app/api/v1/users/jwt?email=${email}`
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.accessToken) {

@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useContext, useState } from 'react';
-import './SignUp.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../Context/AuthProvider';
-import Swal from 'sweetalert2';
-import useJwtToken from '../../../hooks/useJwtToken';
+import React, { useContext, useState } from "react";
+import "./SignUp.css";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../Context/AuthProvider";
+import Swal from "sweetalert2";
+import useJwtToken from "../../../hooks/useJwtToken";
 const SignUp = () => {
   const { userUpdateHandler, createUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const SignUp = () => {
           .then((result) => {
             const user = result.user;
             userUpdateHandler(name, userImg.img);
-            console.log('user', user);
+            console.log("user", user);
             const userData = {
               name: name,
               email: email,
@@ -62,7 +62,7 @@ const SignUp = () => {
             };
             console.log(userData);
 
-            fetch(`http://localhost:5000/api/v1/users`, {
+            fetch(`https://food-restuarant-server.vercel.app/api/v1/users`, {
               method: "POST",
               headers: {
                 "content-type": "application/json",
@@ -104,7 +104,7 @@ const SignUp = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 ">
       <div className="loginbg ">
-        <div className="py-80"></div>
+        {/* <div className="py-80"></div> */}
       </div>
       <div className="card w-1/2 mx-auto my-auto  bg-white">
         <form

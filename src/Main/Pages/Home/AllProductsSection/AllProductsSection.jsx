@@ -13,7 +13,7 @@ const AllProductsSection = () => {
   const [categoryProducts, setCategoryProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/categorys")
+    fetch("https://food-restuarant-server.vercel.app/api/v1/categorys")
       .then((res) => res.json())
       .then((data) => setCategorys(data.data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -30,7 +30,7 @@ const AllProductsSection = () => {
   //   queryKey: ["allBookedPlaceData"],
   //   queryFn: async () => {
   //     const res = await fetch(
-  //       `http://localhost:5000/allBookedPlaceData/${find}`
+  //       `https://food-restuarant-server.vercel.app/allBookedPlaceData/${find}`
   //     );
   //     const data = await res.json();
   //     return data;
@@ -39,7 +39,7 @@ const AllProductsSection = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:5000/api/v1/allProductsData/?category=${activeCategory}`
+      `https://food-restuarant-server.vercel.app/api/v1/allProductsData/?category=${activeCategory}`
     )
       .then((res) => res.json())
       .then((data) => setCategoryProducts(data.data))
@@ -76,7 +76,11 @@ const AllProductsSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 py-10">
           {categoryProducts.length === 0 ? (
-            <SmallLoading />
+            <div className="flex justify-center">
+              <div className="text-center">
+                <SmallLoading />
+              </div>
+            </div>
           ) : (
             categoryProducts?.slice(0, 6).map((categoryProduct) => (
               <div

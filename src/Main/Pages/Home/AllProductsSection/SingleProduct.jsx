@@ -1,21 +1,21 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useContext, useEffect, useState } from 'react';
-import { BsCartPlus } from 'react-icons/bs';
-import { FaRegCircleCheck, FaStar } from 'react-icons/fa6';
+import React, { useContext, useEffect, useState } from "react";
+import { BsCartPlus } from "react-icons/bs";
+import { FaRegCircleCheck, FaStar } from "react-icons/fa6";
 // import { BsCartPlus } from 'react-icons/bs';
-import { Link,  useParams } from 'react-router-dom';
+import { Link, useParams } from "react-router-dom";
 import Modal from "react-modal";
-import { AuthContext } from '../../../Context/AuthProvider';
+import { AuthContext } from "../../../Context/AuthProvider";
 import Swal from "sweetalert2";
-import SmallLoading from '../../../SharedPage/Loading/SmallLoading';
+import SmallLoading from "../../../SharedPage/Loading/SmallLoading";
 
-import { useQuery } from '@tanstack/react-query';
-import UserProducts from '../../../Utils/UserProducts';
+import { useQuery } from "@tanstack/react-query";
+import UserProducts from "../../../Utils/UserProducts";
 
 const customStyles = {
   content: {
-    width:"35%",
-    height:"60%",
+    width: "35%",
+    height: "60%",
     top: "50%",
     left: "50%",
     right: "auto",
@@ -39,7 +39,7 @@ const SingleProduct = () => {
     queryKey: ["singleProducts", idx],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/api/v1/allProductsData/${idx}`
+        `https://food-restuarant-server.vercel.app/api/v1/allProductsData/${idx}`
       );
       const data = await res.json();
       return data.data;
@@ -48,7 +48,7 @@ const SingleProduct = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:5000/api/v1/allProductsData/?category=${singleProducts?.category}`
+      `https://food-restuarant-server.vercel.app/api/v1/allProductsData/?category=${singleProducts?.category}`
     )
       .then((res) => res.json())
       .then((data) => setSimillerCategorys(data.data))
@@ -68,7 +68,7 @@ const SingleProduct = () => {
     }
   }, [userData, singleProducts._id]);
 
-  //reported btn implementetion 
+  //reported btn implementetion
   useEffect(() => {
     if (userData) {
       const reportedItems = userData?.reports?.find(
@@ -79,7 +79,7 @@ const SingleProduct = () => {
   }, [userData, singleProducts._id]);
 
   // console.log("reportProduct", reportProduct);
-  
+
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -112,13 +112,16 @@ const SingleProduct = () => {
       status: "Conform",
     };
 
-    fetch(`http://localhost:5000/api/v1/users/?email=${user.email}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(order),
-    })
+    fetch(
+      `https://food-restuarant-server.vercel.app/api/v1/users/?email=${user.email}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(order),
+      }
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
@@ -162,13 +165,16 @@ const SingleProduct = () => {
     };
     console.log(favoriteorder);
 
-    fetch(`http://localhost:5000/api/v1/users/favorites/?email=${user.email}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(favoriteorder),
-    })
+    fetch(
+      `https://food-restuarant-server.vercel.app/api/v1/users/favorites/?email=${user.email}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(favoriteorder),
+      }
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
@@ -200,13 +206,16 @@ const SingleProduct = () => {
 
   const FavoriteProductDeleteHandler = (id) => {
     console.log("delete id", id);
-    fetch(`http://localhost:5000/api/v1/users/favorites/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: user?.email }),
-    })
+    fetch(
+      `https://food-restuarant-server.vercel.app/api/v1/users/favorites/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: user?.email }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -221,7 +230,7 @@ const SingleProduct = () => {
       });
   };
 
-  const ReportHandler =(e)=>{
+  const ReportHandler = (e) => {
     e.preventDefault();
     const form = e.target;
     const reportText = form.reportText.value;
@@ -235,13 +244,16 @@ const SingleProduct = () => {
       reportText: reportText,
     };
 
-    fetch(`http://localhost:5000/api/v1/users/reports/?email=${user.email}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(report),
-    })
+    fetch(
+      `https://food-restuarant-server.vercel.app/api/v1/users/reports/?email=${user.email}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(report),
+      }
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
@@ -269,9 +281,9 @@ const SingleProduct = () => {
         console.error("Error:", error);
         // Handle errors here, including non-JSON responses
       });
-    
+
     console.log("reportText", report);
-  }
+  };
   return (
     <div className="w-10/12 mx-auto bg-white pb-20 pt-10">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

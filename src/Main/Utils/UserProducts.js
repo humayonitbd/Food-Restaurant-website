@@ -7,7 +7,7 @@ const UserProducts = (email) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/v1/users/?email=${email}`);
+        const response = await fetch(`https://food-restuarant-server.vercel.app/api/v1/users/?email=${email}`);
         const data = await response.json();
         setUserInfoDetails(data.data);
       } catch (error) {
