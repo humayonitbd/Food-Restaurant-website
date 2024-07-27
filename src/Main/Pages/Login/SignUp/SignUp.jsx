@@ -93,13 +93,6 @@ const SignUp = () => {
     console.log(email, image);
   };
 
-  // const userUpdateHandlerBtn = (name) => {
-  //   userUpdateHandler(name)
-  //     .then(() => {
-  //       console.log("profile update");
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 ">

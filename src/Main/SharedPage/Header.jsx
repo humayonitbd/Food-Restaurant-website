@@ -116,17 +116,17 @@ const Header = () => {
               <>
                 <li
                   onClick={logOutHandler}
-                  className="mr-3 ml-2 border-2 border-[#F01543] hover:bg-white hover:text-[#F01543] py-2 px-6 rounded text-white bg-[#F01543]"
+                  className="mr-3 ml-2 border-2 border-[#F01543] hover:bg-white hover:text-[#F01543] py-2 px-6 rounded text-white bg-[#F01543] hidden sm:block md:block "
                 >
                   <Link to="/signIn">Log-out</Link>
                 </li>
               </>
             ) : (
               <>
-                <li className="mr-3 ml-2 border-2 border-[#F01543] hover:bg-white hover:text-[#F01543] py-2 px-6 rounded text-white bg-[#F01543]">
+                <li className="mr-3 ml-2 border-2 border-[#F01543] hover:bg-white hover:text-[#F01543] py-2 px-6 rounded text-white bg-[#F01543] hidden sm:block md:block ">
                   <Link to="/signIn">Login</Link>
                 </li>
-                <li className="mr-3 border-2 hover:border-[#F01543] hover:bg-[#F01543] border-white py-2 px-6 rounded ">
+                <li className="mr-3 border-2 hover:border-[#F01543] hover:bg-[#F01543] border-white py-2 px-6 rounded hidden sm:block md:block">
                   <Link to="/signUp">SignUp</Link>
                 </li>
               </>
